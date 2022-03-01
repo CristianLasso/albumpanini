@@ -1,0 +1,9 @@
+.background {
+  color: white;
+  width: max-content;
+}
+
+.button {
+  width: 200px;
+  padding-right: 10px;
+}
