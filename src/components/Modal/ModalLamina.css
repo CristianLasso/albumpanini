@@ -1,0 +1,7 @@
+.filtro-bn{
+    filter: grayscale(100%);
+}
+
+.sin-filtro {
+    filter: grayscale(0%);
+}
