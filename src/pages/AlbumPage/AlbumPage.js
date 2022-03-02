@@ -7,7 +7,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import {ModalLamina} from '../../components/Modal/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
-import background from "../../assets/bluewall.jpg"
 
 const laminaData = [
     {

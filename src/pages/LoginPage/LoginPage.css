@@ -1,19 +1,18 @@
-.Login{
-    /* The image used */
-    background-image: url(../../assets/bluewall.jpg);
- 
-    /* Full height */
-    height: 100%; 
- 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
- }
- 
- .image {
-   flex: 1;
-   width: null;
-   height: null;
-   resize: "contain";
- }
+.Login {
+  /* The image used */
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.image {
+  flex: 1;
+  width: null;
+  height: null;
+  resize: "contain";
+}
