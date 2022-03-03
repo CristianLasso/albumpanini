@@ -6,11 +6,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ImageIcon from '@mui/icons-material/Image';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import Box from '@mui/material/Box';
 import AppBar from '../../components/AppBar/AppBar';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 const albumData = [
     {
@@ -65,7 +66,7 @@ export const HomePage = () => {
                             <ListItem disablePadding key={album.albumName}>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>
                                     <ListItemIcon>
-                                        <ImageIcon />
+                                        <AutoStoriesIcon />
                                     </ListItemIcon>
                                     <ListItemText primary={album.albumName} secondary={album.albumLaminas + " Laminas"} />
                                 </ListItemButton>
@@ -74,6 +75,7 @@ export const HomePage = () => {
                         
                     ))}
                 </List>
+                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained">Agregar album</Button>
             </Box>
         </Box>
     );
