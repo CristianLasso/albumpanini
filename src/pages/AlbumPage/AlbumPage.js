@@ -113,8 +113,8 @@ export const AlbumPage = () => {
                   }}
             >
                 {laminaData.map((lamina) => (
-                    <Grid xs={2} padding={'3px'} border={'2px solid #000'}>
-                        <ImageListItem key={lamina.img} onClick={()=>handleClick(lamina)}>
+                    <Grid item key={lamina.img} xs={2} padding={'3px'} border={'2px solid #000'}>
+                        <ImageListItem onClick={()=>handleClick(lamina)}>
                             <img
                                 className={lamina.filter}
                                 src={`${lamina.img}?w=248&fit=crop&auto=format`}

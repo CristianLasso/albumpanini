@@ -62,8 +62,8 @@ export const HomePage = () => {
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {albumData.map((album) => (
-                        <Box>
-                            <ListItem disablePadding key={album.albumName}>
+                        <Box key={album.albumName}>
+                            <ListItem disablePadding>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>
                                     <ListItemIcon>
                                         <AutoStoriesIcon />

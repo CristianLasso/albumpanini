@@ -97,7 +97,7 @@ export const ModalLamina = () => {
                 </Grid>
               </Grid>
             </Box>
-            <Button color="parimary" variant="contained" onClick={handlePegar}>Pegar</Button>
+            <Button color="primary" variant="contained" onClick={handlePegar}>Pegar</Button>
           </Box>
               
         </Modal>
