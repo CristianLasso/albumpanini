@@ -1,4 +1,4 @@
-[
+export const laminasData = [
     {
         "img":"https://www.laststicker.com/i/cards/3852/sp01.jpg",
         "cuantity": 0,
@@ -4219,5 +4219,4 @@
         "cuantity": 0,
         "filter": false
     }
-    
 ]

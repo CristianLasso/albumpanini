@@ -43,6 +43,11 @@ export const ModalLamina = () => {
 
     const handlePegar = () => {
       state.setFilterLamina("sin-filtro")
+      var rest=parseInt(state.quantityLamina)-1
+      if(rest<0){
+        rest=0
+      }
+      state.setQuantityLamina(rest)
     }
 
     return(
