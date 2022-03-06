@@ -7,6 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import Box from '@mui/material/Box';
 import AppBar from '../../components/AppBar/AppBar';
 import { useNavigate } from 'react-router-dom';
@@ -57,7 +58,7 @@ export const HomePage = () => {
         <Box>
             <AppBar/>
             <Box sx={style}>
-                <Typography sx={{textAlign:'center'}} id="modal-modal-title" variant="h4" component="h3">
+                <Typography sx={{textAlign:'center'}} variant="h4" component="h3">
                     Tus albumes son:
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -75,7 +76,7 @@ export const HomePage = () => {
                         
                     ))}
                 </List>
-                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained">Agregar album</Button>
+                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained"><BookmarkAddIcon fontSize={'large'}/>Agregar album</Button>
             </Box>
         </Box>
     );
