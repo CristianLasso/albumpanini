@@ -4,6 +4,6 @@
 }
 
 .button {
-  width: 200px;
-  padding-right: 10px;
+  width: 'auto';
+  padding: 5px;
 }
