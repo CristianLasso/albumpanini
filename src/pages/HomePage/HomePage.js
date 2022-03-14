@@ -14,19 +14,20 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
+import {useGetAlbumsQuery, usePostAlbumMutation} from "../../redux/api/mainAPI";
 
 const albumData = [
     {
         albumName: "Mi primer album",
-        albumLaminas: "30",
+        laminasNumber: "30",
     },
     {
         albumName: "Album secundario",
-        albumLaminas: "13",
+        laminasNumber: "13",
     },
     {
         albumName: "El album de mi novia",
-        albumLaminas: "7",
+        laminasNumber: "7",
     },
 ];
 
@@ -50,6 +51,8 @@ export const HomePage = () => {
     const state = useContext(AppContext);
     const navigate = useNavigate();
 
+    const { data: albumsData } = useGetAlbumsQuery();
+
     const handleSelectAlbum = (item) => {
         state.setAlbumName(item.albumName)
         navigate("/album")
@@ -67,14 +70,14 @@ export const HomePage = () => {
                     Tus albumes son:
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {albumData.map((album) => (
+                    {albumsData.map((album) => (
                         <Box key={album.albumName}>
                             <ListItem disablePadding>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>
                                     <ListItemIcon>
                                         <AutoStoriesIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={album.albumName} secondary={album.albumLaminas + " Laminas"} />
+                                    <ListItemText primary={album.albumName} secondary={album.laminasNumber + " Laminas"} />
                                 </ListItemButton>
                             </ListItem>
                         </Box>
