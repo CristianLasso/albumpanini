@@ -5,6 +5,7 @@ const AppContext = React.createContext();
 export const AppContextWrapper = (props) => {
     const [albumName, setAlbumName] = useState("Tus albumes");
     const [open, setOpen] = useState(false);
+    const [token, setToken] = useState(0);
     const [imgLamina, setImgLamina] = useState("");
     const [numberLamina, setNumberLamina] = useState("");
     const [quantityLamina, setQuantityLamina] = useState(0);
@@ -16,6 +17,8 @@ export const AppContextWrapper = (props) => {
         setAlbumName,
         open,
         setOpen,
+        token,
+        setToken,
         imgLamina,
         setImgLamina,
         numberLamina,

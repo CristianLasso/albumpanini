@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import PaidIcon from '@mui/icons-material/Paid';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import {ModalToken} from '../../components/ModalToken/ModalToken';
 
 const style = {
     position: 'absolute',
@@ -27,6 +28,10 @@ const style = {
 export const TokenPage = () => {
     const state = useContext(AppContext);
 
+    const handleComprar = () => {
+        state.setOpen(true)
+    }
+
     return(
         <Box>
             <AppBar/>
@@ -35,10 +40,13 @@ export const TokenPage = () => {
                     Tu balance:
                 </Typography>
                 <Typography sx={{textAlign:'center'}} id="balance" variant="h4" component="h3">
-                    <PaidIcon fontSize={'medium'}/>0
+                    <PaidIcon fontSize={'medium'}/>{state.token}
                 </Typography>
-                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained"><ShoppingBagIcon fontSize={'large'}/> Comprar tokens</Button>
+                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained" onClick={handleComprar}><ShoppingBagIcon fontSize={'large'}/> Comprar tokens</Button>
             </Box>
+            <div>
+                <ModalToken/>
+            </div>
         </Box>
     );
 };

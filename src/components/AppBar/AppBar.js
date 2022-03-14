@@ -53,6 +53,9 @@ export default function ButtonAppBar() {
           </IconButton>
           <IconButton className='button' color="inherit" onClick={handleWallet}>
             <Badge badgeContent={0} color="error">
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                {state.token}
+              </Typography>
               <AccountBalanceWalletIcon />
             </Badge>
           </IconButton>
