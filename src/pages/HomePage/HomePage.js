@@ -16,20 +16,6 @@ import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
 import {useGetAlbumsQuery, usePostAlbumMutation} from "../../redux/api/mainAPI";
 
-const albumData = [
-    {
-        albumName: "Mi primer album",
-        laminasNumber: "30",
-    },
-    {
-        albumName: "Album secundario",
-        laminasNumber: "13",
-    },
-    {
-        albumName: "El album de mi novia",
-        laminasNumber: "7",
-    },
-];
 
 const style = {
     position: 'absolute',
@@ -70,7 +56,7 @@ export const HomePage = () => {
                     Tus albumes son:
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {albumsData.map((album) => (
+                    {albumsData?.map((album) => (
                         <Box key={album.albumName}>
                             <ListItem disablePadding>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>

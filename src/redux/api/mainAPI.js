@@ -4,17 +4,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const mainAPI = createApi({
   reducerPath: "mainAPI",
   baseQuery: fetchBaseQuery(
-    { baseUrl: "http://localhost:8000/api/users/"
+    { baseUrl: "http://localhost:8080/api/users/"
     }),
   endpoints: (builder) => ({
    
     getAlbums: builder.query({
-      query: () => `album/`,
+      query: () => `albums/`,
     }),
 
     postAlbum: builder.mutation({
       query: (album) => ({
-        url: "album",
+        url: "albums/",
         method: "POST",
         body: album,      
       }),
