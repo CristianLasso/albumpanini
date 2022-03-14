@@ -1,5 +1,6 @@
 import React, {useContext, useState} from "react";
 import AppContext from "../../context/AppContext";
+import Swal from 'sweetalert2'
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -48,6 +49,38 @@ export const ModalLamina = () => {
         rest=0
       }
       state.setQuantityLamina(rest)
+    }
+
+    const handleSolicitar = () => {
+      handleClose()
+      Swal.fire({
+        title: 'Esta lámina tiene un costo de 500 tokens',
+        text: "¿Estás seguro de que la quieres comprar?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, estoy seguro'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          var rest=parseInt(state.token)-500
+          if(rest<0){
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Parece que no tienes suficientes tokens, deberías comprar algunos!'
+            })
+          }
+          if(rest>=0){
+            Swal.fire(
+              '¡¡Solicitada!!',
+              'Espera mientras comprobamos nuestras existencias para reflejar tu compra',
+              'success'
+            )
+            state.setToken(rest)
+          }
+        }
+      })
     }
 
     return(
@@ -103,6 +136,7 @@ export const ModalLamina = () => {
               </Grid>
             </Box>
             <Button color="primary" variant="contained" onClick={handlePegar}>Pegar</Button>
+            <Button color="primary" variant="contained" sx={{marginLeft:5}} onClick={handleSolicitar}>Comprar lámina</Button>
           </Box>
               
         </Modal>

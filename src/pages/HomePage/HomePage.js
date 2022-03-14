@@ -13,6 +13,7 @@ import AppBar from '../../components/AppBar/AppBar';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
 
 const albumData = [
     {
@@ -53,6 +54,10 @@ export const HomePage = () => {
         state.setAlbumName(item.albumName)
         navigate("/album")
     }
+
+    const handleAgregar = () => {
+        state.setOpen(true)
+    }
     
     return(
         <Box>
@@ -76,8 +81,11 @@ export const HomePage = () => {
                         
                     ))}
                 </List>
-                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained"><BookmarkAddIcon fontSize={'large'}/>Agregar album</Button>
+                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained" onClick={handleAgregar}><BookmarkAddIcon fontSize={'large'}/>Agregar album</Button>
             </Box>
+            <div>
+                <ModalAlbum/>
+            </div>
         </Box>
     );
 };
