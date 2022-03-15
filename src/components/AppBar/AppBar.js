@@ -27,7 +27,8 @@ export default function ButtonAppBar() {
     };
 
     const handleNotifications = () => {
-      console.log('Notificaciones')
+      state.setAlbumName('Notificaciones')
+      navigate('/notifys')
     };
 
     const handleWallet = () => {
