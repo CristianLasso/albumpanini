@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
 import axios from "axios";
+import { useGetAlbumsQuery } from '../../redux/api/mainAPI';
 
 
 const style = {
@@ -39,6 +40,8 @@ export const HomePage = () => {
 
     const dummy = []
     const [albums, setAlbums] = useState(dummy);
+
+    //const { data: albumData } = useGetAlbumsQuery();
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/users/albums')
@@ -66,14 +69,14 @@ export const HomePage = () => {
                     Tus albumes son:
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {albums.map((album) => (
-                        <Box key={album.albumName}>
+                    {albums?.map((album) => (
+                        <Box key={album.height}>
                             <ListItem disablePadding>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>
                                     <ListItemIcon>
                                         <AutoStoriesIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={album.albumName} secondary={album.laminasNumber + " Laminas"} />
+                                    <ListItemText primary={album.height} secondary={album.base_experience + " Laminas"} />
                                 </ListItemButton>
                             </ListItem>
                         </Box>
