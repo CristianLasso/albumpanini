@@ -43,13 +43,13 @@ export const ModalAlbum = () => {
 
     const handleCrear = async (e) => {
         e.preventDefault();
-        console.log("Creado")
+        console.log(nameChange)
         state.setAlbumName(nameChange)
         handleClose()
         navigate('/album')
         const newAlbum = {
-          albumName: {nameChange},
-          laminasNumber: 0
+          albumName:String(nameChange),
+          laminasNumber:0
         };
         const { error: postAlbumError } = await createAlbum(
           newAlbum

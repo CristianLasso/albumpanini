@@ -70,13 +70,13 @@ export const HomePage = () => {
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {albumData?.map((album) => (
-                        <Box key={album.height}>
+                        <Box key={album.albumid}>
                             <ListItem disablePadding>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>
                                     <ListItemIcon>
                                         <AutoStoriesIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={album.height} secondary={album.base_experience + " Laminas"} />
+                                    <ListItemText primary={album.albumName} secondary={album.laminasnumber + " Laminas"} />
                                 </ListItemButton>
                             </ListItem>
                         </Box>
