@@ -41,7 +41,7 @@ export const HomePage = () => {
     const [albums, setAlbums] = useState(dummy);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/users/album')
+        axios.get('http://localhost:8080/api/users/albums')
         .then(res => {
             setAlbums(res.data)
             console.log(res.data)

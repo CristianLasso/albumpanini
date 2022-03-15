@@ -48,7 +48,7 @@ export const ModalAlbum = () => {
           albumName: {nameChange},
           laminasNumber: 0
         };
-        axios.post('http://localhost:8080/api/users/album', newAlbum).then(res => console.log(res));
+        axios.post('http://localhost:8080/api/users/albums', newAlbum).then(res => console.log(res));
     }
 
     return(
