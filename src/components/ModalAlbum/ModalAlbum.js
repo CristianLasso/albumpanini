@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import axios from "axios";
 
+import {useAddAlbumMutation} from '../../redux/api/mainAPI';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -35,6 +37,7 @@ export const ModalAlbum = () => {
     const handleClose = () => state.setOpen(false);
     const navigate = useNavigate();
     const [nameChange, setNameChange] = useState('');
+    const [createAlbum] = useAddAlbumMutation();
 
     const handleName = e => setNameChange(e.target.value);
 
@@ -48,7 +51,10 @@ export const ModalAlbum = () => {
           albumName: {nameChange},
           laminasNumber: 0
         };
-        axios.post('http://localhost:8080/api/users/albums', newAlbum).then(res => console.log(res));
+        const { error: postAlbumError } = await createAlbum(
+          newAlbum
+        );
+        //axios.post('http://localhost:8080/api/users/albums', newAlbum).then(res => console.log(res));
     }
 
     return(
