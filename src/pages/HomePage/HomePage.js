@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import "./HomePage.css";
 import AppContext from "../../context/AppContext";
 import List from '@mui/material/List';
@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
-import {useGetAlbumsQuery, usePostAlbumMutation} from "../../redux/api/mainAPI";
+import axios from "axios";
 
 
 const style = {
@@ -37,7 +37,17 @@ export const HomePage = () => {
     const state = useContext(AppContext);
     const navigate = useNavigate();
 
-    const { data: albumsData } = useGetAlbumsQuery();
+    const dummy = []
+    const [albums, setAlbums] = useState(dummy);
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/users/album')
+        .then(res => {
+            setAlbums(res.data)
+            console.log(res.data)
+        })
+        .catch(e =>{console.log(e)})
+    }, [])
 
     const handleSelectAlbum = (item) => {
         state.setAlbumName(item.albumName)
@@ -56,7 +66,7 @@ export const HomePage = () => {
                     Tus albumes son:
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {albumsData?.map((album) => (
+                    {albums.map((album) => (
                         <Box key={album.albumName}>
                             <ListItem disablePadding>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>
