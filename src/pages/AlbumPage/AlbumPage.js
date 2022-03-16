@@ -7,20 +7,24 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
-import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
-import { useGetLaminasQuery } from '../../redux/api/mainAPI';
 
 export const AlbumPage = () => {
     const state = useContext(AppContext);
+    const laminas = state.currentAlbum.laminas;
 
     //const { data: laminasData } = useGetAlbumsQuery();
 
     const handleClick = (lamina) => {
         console.log('Click')
-        state.setNumberLamina(lamina.number)
-        state.setQuantityLamina('0')
         state.setOpen(true)
+        state.setNumberLamina(lamina.laminaid)
+        state.setQuantityLamina(lamina.cuantity)
         state.setImgLamina(lamina.img)
+        if(lamina.filter){
+            state.setFilterLamina('sin-filtro')
+        }else{
+            state.setFilterLamina('filtro-bn')
+        }
     }
 
     return(
@@ -41,7 +45,7 @@ export const AlbumPage = () => {
                     padding: '60px',
                   }}
             >
-                {laminasData.map((lamina) => (
+                {laminas?.map((lamina) => (
                     <Grid item key={lamina.img} xs={2} padding={'3px'} border={'2px solid #000'}>
                         <ImageListItem onClick={()=>handleClick(lamina)}>
                             <img
@@ -53,7 +57,7 @@ export const AlbumPage = () => {
                             />
                             <ImageListItemBar
                                 position={'top'}
-                                title={lamina.number}
+                                title={lamina.laminaid}
                                 subtitle={lamina.title}
                             />
                         </ImageListItem>
