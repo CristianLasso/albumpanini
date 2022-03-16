@@ -1,25 +1,21 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {useContext} from "react";
-import AppContext from "../../context/AppContext";
-
-const state = useContext(AppContext);
 
 // Define a service using a base URL and expected endpoints
 export const mainAPI = createApi({
   reducerPath: "mainAPI",
   baseQuery: fetchBaseQuery(
-    { baseUrl: "http://localhost:8080/api/users/"+state.currentUser.id+"/"
+    { baseUrl: "http://localhost:8080/api/users/"
     }),
   endpoints: (builder) => ({
 
     //Album requests
    getAlbums: builder.query({
-      query: () => "albums/",
+      query: () => `albums/`,
     }),
 
     addAlbum: builder.mutation({
       query: (album) => ({
-        url: "albums/",
+        url: `albums/`,
         method: "POST",
         body: album,      
       }),
@@ -27,7 +23,7 @@ export const mainAPI = createApi({
 
     putAlbum: builder.mutation({
       query: (album) => ({
-        url: "albums/"+album.id,
+        url: `albums/${album.id}`,
         method: "PUT",
         body: album,      
       }),
@@ -35,20 +31,20 @@ export const mainAPI = createApi({
 
     //Lamina requests
     getLaminas: builder.query({
-      query: () => "albums/"+state.currenAlbum.id+"/laminas/",
+      query: (album) => `albums/${album.id}/laminas/`,
     }),
 
     addLamina: builder.mutation({
-      query: (lamina) => ({
-        url: "albums/"+state.currenAlbum.id+"/laminas/",
+      query: (lamina, album) => ({
+        url: `albums/${album.id}/laminas/`,
         method: "POST",
         body: lamina,      
       }),
     }),
 
     putLamina: builder.mutation({
-      query: (lamina) => ({
-        url: "albums/"+state.currenAlbum.id+"/laminas/"+lamina.id,
+      query: (lamina, album) => ({
+        url: `albums/${album.id}/laminas/${lamina.id}`,
         method: "PUT",
         body: lamina,
       }),
@@ -56,12 +52,12 @@ export const mainAPI = createApi({
 
     //Notify requests
     getNotifys: builder.query({
-      query: () => "notifys/",
+      query: () => `notifys/`,
     }),
 
     addNotify: builder.mutation({
       query: (notify) => ({
-        url: "notifys/",
+        url: `notifys/`,
         method: "POST",
         body: notify,      
       }),
@@ -69,20 +65,20 @@ export const mainAPI = createApi({
 
     putNotify: builder.mutation({
       query: (notify) => ({
-        url: "notifys/"+notify.id,
+        url: `notifys/${notify.id}`,
         method: "PUT",
         body: notify,      
       }),
     }),
 
-    //Token requests
+    //Tokenn requests
     getTokens: builder.query({
-      query: () => "tokens/",
+      query: () => `tokens/`,
     }),
 
     addToken: builder.mutation({
       query: (token) => ({
-        url: "tokens/",
+        url: `tokens/`,
         method: "POST",
         body: token,      
       }),
@@ -90,7 +86,7 @@ export const mainAPI = createApi({
 
     putToken: builder.mutation({
       query: (token) => ({
-        url: "tokens/"+token.id,
+        url: `tokens/${token.id}`,
         method: "PUT",
         body: token,      
       }),
