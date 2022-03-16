@@ -8,9 +8,12 @@ import Box from '@mui/material/Box';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
 import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
+import { useGetLaminasQuery } from '../../redux/api/mainAPI';
 
 export const AlbumPage = () => {
     const state = useContext(AppContext);
+
+    //const { data: laminasData } = useGetAlbumsQuery();
 
     const handleClick = (lamina) => {
         console.log('Click')

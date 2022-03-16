@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
-import axios from "axios";
 import { useGetAlbumsQuery } from '../../redux/api/mainAPI';
 
 
@@ -38,22 +37,11 @@ export const HomePage = () => {
     const state = useContext(AppContext);
     const navigate = useNavigate();
 
-    const dummy = []
-    const [albums, setAlbums] = useState(dummy);
-
     const { data: albumData } = useGetAlbumsQuery();
-
-    /*useEffect(() => {
-        axios.get('localhost:8080/api/users/albums')
-        .then(res => {
-            setAlbums(res.data)
-            console.log(res.data)
-        })
-        .catch(e =>{console.log(e)})
-    }, [])*/
 
     const handleSelectAlbum = (item) => {
         state.setAlbumName(item.albumName)
+        state.setCurrentAlbum(item)
         navigate("/album")
     }
 

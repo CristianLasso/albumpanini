@@ -3,6 +3,8 @@ import React, {useState} from "react";
 const AppContext = React.createContext();
 
 export const AppContextWrapper = (props) => {
+    const [currentUser, setCurrentUser] = useState(null);
+    const [currentAlbum, setCurrentAlbum] = useState(null);
     const [albumName, setAlbumName] = useState("Tus albumes");
     const [open, setOpen] = useState(false);
     const [token, setToken] = useState(0);
@@ -13,6 +15,10 @@ export const AppContextWrapper = (props) => {
     
 
     const state = {
+        currentUser,
+        setCurrentUser,
+        currentAlbum,
+        setCurrentAlbum,
         albumName,
         setAlbumName,
         open,
