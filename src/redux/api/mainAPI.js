@@ -11,7 +11,8 @@ export const mainAPI = createApi({
     { baseUrl: "http://localhost:8080/api/users/"+state.currentUser.id+"/"
     }),
   endpoints: (builder) => ({
-   
+
+    //Album requests
    getAlbums: builder.query({
       query: () => "albums/",
     }),
@@ -32,6 +33,7 @@ export const mainAPI = createApi({
       }),
     }),
 
+    //Lamina requests
     getLaminas: builder.query({
       query: () => "albums/"+state.currenAlbum.id+"/laminas/",
     }),
@@ -52,6 +54,48 @@ export const mainAPI = createApi({
       }),
     }),
 
+    //Notify requests
+    getNotifys: builder.query({
+      query: () => "notifys/",
+    }),
+
+    addNotify: builder.mutation({
+      query: (notify) => ({
+        url: "notifys/",
+        method: "POST",
+        body: notify,      
+      }),
+    }),
+
+    putNotify: builder.mutation({
+      query: (notify) => ({
+        url: "notifys/"+notify.id,
+        method: "PUT",
+        body: notify,      
+      }),
+    }),
+
+    //Token requests
+    getTokens: builder.query({
+      query: () => "tokens/",
+    }),
+
+    addToken: builder.mutation({
+      query: (token) => ({
+        url: "tokens/",
+        method: "POST",
+        body: token,      
+      }),
+    }),
+
+    putToken: builder.mutation({
+      query: (token) => ({
+        url: "tokens/"+token.id,
+        method: "PUT",
+        body: token,      
+      }),
+    }),
+
   }),
 });
 export const {
@@ -61,4 +105,10 @@ export const {
   useGetLaminasQuery,
   useAddLaminaMutation,
   usePutLaminaMutation,
+  useGetNotifysQuery,
+  useAddNotifyMutation,
+  usePutNotifyMutation,
+  useGetTokensQuery,
+  useAddTokenMutation,
+  usePutTokenMutation,
 } = mainAPI;
