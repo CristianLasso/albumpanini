@@ -67,10 +67,20 @@ export const ModalLamina = () => {
     }
 
     const handlePegar = () => {
-      state.setFilterLamina("sin-filtro")
       var rest=parseInt(state.quantityLamina)-1
       if(rest<0){
         rest=0
+      }else{
+        state.setFilterLamina("sin-filtro")
+        const newLamina = {
+          laminaid: state.numberLamina,
+          cuantity: rest,
+          img: state.imgLamina,
+          filter: state.filterLamina,
+        };
+        const { error: putLaminaError } = await editLamina(
+          newLamina
+        );
       }
       state.setQuantityLamina(rest)
     }
