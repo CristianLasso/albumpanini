@@ -43,8 +43,8 @@ export const mainAPI = createApi({
     }),
 
     putLamina: builder.mutation({
-      query: (lamina, album) => ({
-        url: `albums/${album.id}/laminas/${lamina.id}`,
+      query: (lamina) => ({
+        url: `albums/laminas/${lamina.id}`,
         method: "PUT",
         body: lamina,
       }),

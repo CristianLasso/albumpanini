@@ -8,6 +8,8 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
+import { usePutLaminaMutation } from '../../redux/api/mainAPI';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -29,17 +31,39 @@ export const ModalLamina = () => {
     const state = useContext(AppContext);
     const handleClose = () => state.setOpen(false);
 
+    const [editLamina] = usePutLaminaMutation();
+
     const handleMinus = () => {
       var rest=parseInt(state.quantityLamina)-1
       if(rest<0){
         rest=0
       }
       state.setQuantityLamina(rest)
+
+      const newLamina = {
+        laminaid: state.numberLamina,
+        cuantity: rest,
+        img: state.imgLamina,
+        filter: state.filterLamina,
+      };
+      const { error: putLaminaError } = await editLamina(
+        newLamina
+      );
     }
 
     const handlePlus = () => {
       var sum=parseInt(state.quantityLamina)+1
       state.setQuantityLamina(sum)
+
+      const newLamina = {
+        laminaid: state.numberLamina,
+        cuantity: sum,
+        img: state.imgLamina,
+        filter: state.filterLamina,
+      };
+      const { error: putLaminaError } = await editLamina(
+        newLamina
+      );
     }
 
     const handlePegar = () => {
