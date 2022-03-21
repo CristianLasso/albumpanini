@@ -7,13 +7,14 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
-import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
+//import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
+import {useGetLaminasQuery} from '../../redux/api/mainAPI';
 
 export const AlbumPage = () => {
     const state = useContext(AppContext);
-    //const laminas = state.currentAlbum.laminas;
+    const laminas = state.currentAlbum.laminas;
 
-    //const { data: laminasData } = useGetAlbumsQuery();
+    const { data: laminasData } = useGetLaminasQuery();
 
     const handleClick = (lamina) => {
         console.log('Click')
@@ -43,8 +44,8 @@ export const AlbumPage = () => {
                     paddingTop: '60px'
                   }}
             >
-                {laminasData?.map((lamina) => (
-                    <Grid item key={lamina.img} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
+                {laminas?.map((lamina) => (
+                    <Grid item key={lamina.laminaid} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
                         <ImageListItem onClick={()=>handleClick(lamina)}>
                             <img
                                 className={`banner ${lamina.filter ? "sin-filtro" : "filtro-bn"}`}
