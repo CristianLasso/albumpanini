@@ -7,6 +7,7 @@
 
 .filtro-bn{
     filter: grayscale(100%);
+    opacity: 0.3;
 }
 
 .sin-filtro {

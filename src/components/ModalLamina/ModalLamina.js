@@ -33,7 +33,7 @@ export const ModalLamina = () => {
 
     const [editLamina] = usePutLaminaMutation();
 
-    const handleMinus = () => {
+    const handleMinus = async () => {
       var rest=parseInt(state.quantityLamina)-1
       if(rest<0){
         rest=0
@@ -51,7 +51,7 @@ export const ModalLamina = () => {
       );
     }
 
-    const handlePlus = () => {
+    const handlePlus = async () => {
       var sum=parseInt(state.quantityLamina)+1
       state.setQuantityLamina(sum)
 
@@ -66,7 +66,7 @@ export const ModalLamina = () => {
       );
     }
 
-    const handlePegar = () => {
+    const handlePegar = async () => {
       var rest=parseInt(state.quantityLamina)-1
       if(rest<0){
         rest=0
@@ -89,15 +89,19 @@ export const ModalLamina = () => {
       handleClose()
       Swal.fire({
         title: 'Esta lámina tiene un costo de 500 tokens',
-        text: "¿Estás seguro de que la quieres comprar?",
+        text: "Especifica cuantas de esta lámina quieres solicitar",
         icon: 'warning',
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, estoy seguro'
+        confirmButtonText: 'Confirmar solicitud'
       }).then((result) => {
         if (result.isConfirmed) {
-          var rest=parseInt(state.token)-500
+          var rest=parseInt(state.token)-500 * parseInt(result.value)
           if(rest<0){
             Swal.fire({
               icon: 'error',
@@ -107,8 +111,8 @@ export const ModalLamina = () => {
           }
           if(rest>=0){
             Swal.fire(
-              '¡¡Solicitada!!',
-              'Espera mientras comprobamos nuestras existencias para reflejar tu compra',
+              '¡¡Solicitud realizada!!',
+              'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
               'success'
             )
             state.setToken(rest)
@@ -170,7 +174,7 @@ export const ModalLamina = () => {
               </Grid>
             </Box>
             <Button color="primary" variant="contained" onClick={handlePegar}>Pegar</Button>
-            <Button color="primary" variant="contained" sx={{marginLeft:5}} onClick={handleSolicitar}>Comprar lámina</Button>
+            <Button color="primary" variant="contained" sx={{marginLeft:5}} onClick={handleSolicitar}>Solicitar lámina</Button>
           </Box>
               
         </Modal>

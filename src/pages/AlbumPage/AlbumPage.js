@@ -7,10 +7,11 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
+import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
 
 export const AlbumPage = () => {
     const state = useContext(AppContext);
-    const laminas = state.currentAlbum.laminas;
+    //const laminas = state.currentAlbum.laminas;
 
     //const { data: laminasData } = useGetAlbumsQuery();
 
@@ -32,21 +33,18 @@ export const AlbumPage = () => {
             <AppBar/>
             <Grid
                 sx={{
-                    direction: 'row',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: "flex-start",
                     flexWrap: 'wrap',
-                    p: 1,
                     m: 1,
-                    height: 'auto',
-                    borderRadius: 1,
-                    flexGrow: 1,
-                    padding: '60px',
+                    height: '100%',
+                    width: '100%',
+                    paddingTop: '60px'
                   }}
             >
-                {laminas?.map((lamina) => (
-                    <Grid item key={lamina.img} xs={2} padding={'3px'} border={'2px solid #000'}>
+                {laminasData?.map((lamina) => (
+                    <Grid item key={lamina.img} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
                         <ImageListItem onClick={()=>handleClick(lamina)}>
                             <img
                                 className={`banner ${lamina.filter ? "sin-filtro" : "filtro-bn"}`}
