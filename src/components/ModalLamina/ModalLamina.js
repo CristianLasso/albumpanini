@@ -8,6 +8,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
+import {useAddNotifyMutation} from '../../redux/api/mainAPI';
 import { usePutLaminaMutation } from '../../redux/api/mainAPI';
 
 const style = {
@@ -31,6 +32,7 @@ export const ModalLamina = () => {
     const state = useContext(AppContext);
     const handleClose = () => state.setOpen(false);
 
+    const [createNotify] = useAddNotifyMutation();
     const [editLamina] = usePutLaminaMutation();
 
     const handleMinus = async () => {
@@ -110,12 +112,31 @@ export const ModalLamina = () => {
             })
           }
           if(rest>=0){
-            Swal.fire(
-              '¡¡Solicitud realizada!!',
-              'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
-              'success'
-            )
-            state.setToken(rest)
+            const newNotify = {
+              title: 'Solicitud',
+              info: 'Solicitaste' + result.value + ' unidades de la lámina ' + state.numberLamina,
+              soli: true,
+              quantity: parseInt(result.value),
+              number: parseInt(state.numberLamina),
+              tokens: 500 * parseInt(result.value),
+            };
+            const { error: postNotifyError } = await createNotify(newNotify);
+            if(postNotifyError !== undefined){
+              return (Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Parece que algo salio mal!',
+                confirmButtonColor: 'primary',
+                confirmButtonText: "Entendido!"
+              }))
+            }else{
+              Swal.fire(
+                '¡¡Solicitud realizada!!',
+                'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
+                'success'
+              )
+              state.setToken(rest)
+            }
           }
         }
       })
