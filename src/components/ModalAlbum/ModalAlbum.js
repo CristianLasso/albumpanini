@@ -1,13 +1,13 @@
 import React, {useContext, useState} from "react";
 import AppContext from "../../context/AppContext";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
-import axios from "axios";
+import Swal from 'sweetalert2'
 
 import {useAddAlbumMutation} from '../../redux/api/mainAPI';
 
@@ -46,15 +46,23 @@ export const ModalAlbum = () => {
         console.log(nameChange)
         state.setAlbumName(nameChange)
         handleClose()
-        navigate('/album')
         const newAlbum = {
           albumName:String(nameChange),
           laminasNumber:0
         };
-        const { error: postAlbumError } = await createAlbum(
-          newAlbum
-        );
-        //axios.post('http://localhost:8080/api/users/albums', newAlbum).then(res => console.log(res));
+        const { error: postAlbumError } = await createAlbum(newAlbum);
+        console.log(postAlbumError)
+        if(postAlbumError !== undefined){
+          return (Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Parece que algo salio mal!',
+            confirmButtonColor: 'primary',
+            confirmButtonText: "Entendido!"
+          }))
+        }else{
+          navigate('/album')
+        }
     }
 
     return(

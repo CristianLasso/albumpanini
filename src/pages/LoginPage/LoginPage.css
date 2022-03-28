@@ -16,3 +16,9 @@
   height: null;
   resize: "contain";
 }
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}

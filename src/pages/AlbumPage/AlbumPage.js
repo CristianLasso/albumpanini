@@ -7,14 +7,14 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
-//import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
-import {useGetLaminasQuery} from '../../redux/api/mainAPI';
+import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
+//import {useGetLaminasQuery} from '../../redux/api/mainAPI';
 
 export const AlbumPage = () => {
     const state = useContext(AppContext);
     const laminas = state.currentAlbum.laminas;
 
-    const { data: laminasData } = useGetLaminasQuery();
+    //const { data: laminasData } = useGetLaminasQuery();
 
     const handleClick = (lamina) => {
         console.log('Click')

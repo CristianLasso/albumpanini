@@ -1,4 +1,4 @@
-import {useState,useContext} from 'react';
+import {useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -48,7 +48,7 @@ export default function ButtonAppBar() {
             </Badge>
           </IconButton>
           <IconButton className='button' color="inherit" onClick={handleNotifications}>
-            <Badge badgeContent={5} color="error">
+            <Badge badgeContent={2} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>

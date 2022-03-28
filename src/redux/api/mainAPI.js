@@ -8,6 +8,27 @@ export const mainAPI = createApi({
     }),
   endpoints: (builder) => ({
 
+    //User requests
+    getUsers: builder.query({
+      query: () => ``,
+    }),
+
+    addUser: builder.mutation({
+      query: (user) => ({
+        url: ``,
+        method: "POST",
+        body: user,      
+      }),
+    }),
+
+    putUser: builder.mutation({
+      query: (user) => ({
+        url: `${user.id}`,
+        method: "PUT",
+        body: user,    
+      }),
+    }),
+
     //Album requests
    getAlbums: builder.query({
       query: () => `albums/`,
@@ -95,6 +116,9 @@ export const mainAPI = createApi({
   }),
 });
 export const {
+  useGetUsersQuery,
+  useAddUserMutation,
+  usePutUserMutation,
   useGetAlbumsQuery,
   useAddAlbumMutation,
   usePutAlbumMutation,

@@ -5,7 +5,7 @@ import AppContext from "../../context/AppContext"
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 
@@ -13,6 +13,12 @@ import Button from '@mui/material/Button';
 export const LoginPage = () => {
   const state = useContext(AppContext);
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmail = e => setEmail(e.target.value);
+  const handlePassword = e => setPassword(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +38,6 @@ export const LoginPage = () => {
     p: 4,
   };
 
-  const inputStyle = {
-    width:300
-  }
-
 
   return (
     <Box>
@@ -46,18 +48,18 @@ export const LoginPage = () => {
                 Iniciar Sesion
             </Typography>
           </Box>
-          <Box sx={{display:"flex", flexDirection: 'column' , alignItems: 'center', }}>
+          <Box sx={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
             <form onSubmit={handleSubmit}>
               <Box sx={{marginTop:2}}>
-                <Input color="primary" sx={inputStyle} type='email' placeholder='Email' />
+                <TextField fullWidth color="primary" type='email' label='Email' variant="standard" onChange={handleEmail} />
               </Box>
-              <Box sx={{marginTop:5}}>
-                <Input color="primary" sx={inputStyle} type='password' placeholder='Contraseña' />
+              <Box sx={{marginTop:3}}>
+                <TextField fullWidth color="primary" type='password' label='Contraseña' variant="standard" onChange={handlePassword} />
               </Box>   
-              <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="outlined" type='submit' value='Entrar'>Entrar</Button>
+              <Button color="primary" sx={{marginTop:5}} variant="outlined" type='submit' value='Entrar'>Entrar</Button>
             </form>
             <div/>
-            <p>No tienes una cuenta? <Link to='/home'>Registrate</Link> </p>
+            <p>No tienes una cuenta? <Link to='/register'>Registrate</Link> </p>
           </Box>
         </Box>
     </Box>

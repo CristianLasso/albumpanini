@@ -5,11 +5,12 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Box from '@mui/material/Box';
 import AppBar from '../../components/AppBar/AppBar';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Swal from 'sweetalert2'
 
 
 const style = {
@@ -17,7 +18,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 'auto',
+    width: '60%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -31,11 +32,49 @@ const style = {
 export const NotifyPage = () => {
     const state = useContext(AppContext);
 
-    const notifys = [];
+    const notifys = [
+        {
+            id: 1,
+            title: 'Solicitud',
+            info: 'Solicitaste 5 unidades de la lámina 53',
+            soli: true,
+        },
+        {
+            id: 2,
+            title: 'Compra',
+            info: 'Recargaste 500 tokens! Aprovechalos',
+            soli: false,
+        },
+    ]
 
-    const handleSelectAlbum = (item) => {
+    const handleSelectNoti = (item) => {
         console.log(item.title)
     }
+
+    const handleCancelar = () => {
+        Swal.fire({
+          title: 'Cancelar solicitud',
+          text: "Estas seguro de que quieres cancelar la solicitud? Tus tokens seran devueltos.",
+          icon: 'warning',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, estoy seguro'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var sum = parseInt(state.token + 500)
+                state.setToken(sum)
+                Swal.fire(
+                    '¡¡Solicitud cancelada!!',
+                    '¡Tu solicitud ha sido cancelada con exito y los tokens cargados a tu cuenta para que puedas seguir comprando otras láminas!',
+                    'success'
+                )
+            }
+        })
+      }
     
     return(
         <Box>
@@ -44,17 +83,16 @@ export const NotifyPage = () => {
                 <Typography sx={{textAlign:'center'}} variant="h4" component="h3">
                     Notificaciones:
                 </Typography>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {notifys?.map((noti) => (
-                        <Box key={noti.title}>
-                            <ListItem disablePadding>
-                                <ListItemButton onClick={()=>handleSelectAlbum(noti)}>
-                                    <ListItemIcon>
-                                        <AutoStoriesIcon />
-                                    </ListItemIcon>
+                        <Box key={noti.id} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
+                            <ListItem width={'auto'} height={'auto'} disablePadding>
+                                <ListItemButton onClick={()=>handleSelectNoti(noti)}>
                                     <ListItemText primary={noti.title} secondary={noti.info} />
                                 </ListItemButton>
+                                
                             </ListItem>
+                            {noti.soli ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar solicitud</Button> : <div/>}
                         </Box>
                         
                     ))}

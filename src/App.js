@@ -3,6 +3,7 @@ import './App.css';
 import {AppContextWrapper} from "./context/AppContext";
 
 import {LoginPage} from './pages/LoginPage/LoginPage';
+import {SignupPage} from './pages/SignupPage/SignupPage';
 import {HomePage} from './pages/HomePage/HomePage';
 import {AlbumPage} from './pages/AlbumPage/AlbumPage';
 import {TokenPage} from './pages/TokenPage/TokenPage';
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route exact path='/' element={<LoginPage/>} />
+          <Route exact path='/register' element={<SignupPage/>} />
           <Route exact path='/home' element={<HomePage/>} />
           <Route exact path='/album' element={<AlbumPage/>} />
           <Route exact path='/wallet' element={<TokenPage/>} />

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import "./HomePage.css";
 import AppContext from "../../context/AppContext";
 import List from '@mui/material/List';
@@ -58,8 +58,8 @@ export const HomePage = () => {
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {albumData?.map((album) => (
-                        <Box key={album.albumid}>
-                            <ListItem disablePadding>
+                        <Box key={album.albumid} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
+                            <ListItem>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>
                                     <ListItemIcon>
                                         <AutoStoriesIcon />
