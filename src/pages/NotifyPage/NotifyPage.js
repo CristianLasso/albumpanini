@@ -39,7 +39,7 @@ export const NotifyPage = () => {
             info: 'Solicitaste 5 unidades de la lámina 53',
             soli: true,
             quantity: 5,
-            number: 53,
+            lamina: '53',
             tokens: 500,
         },
         {
@@ -48,7 +48,7 @@ export const NotifyPage = () => {
             info: 'Recargaste 500 tokens! Aprovechalos',
             soli: false,
             quantity: 0,
-            number: 0,
+            lamina: '',
             tokens: 0,
         },
     ]

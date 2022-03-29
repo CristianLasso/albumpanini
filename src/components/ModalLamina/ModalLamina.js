@@ -126,7 +126,7 @@ export const ModalLamina = () => {
               info: 'Solicitaste' + result.value + ' unidades de la lámina ' + state.numberLamina,
               soli: true,
               quantity: parseInt(result.value),
-              number: parseInt(state.numberLamina),
+              lamina: parseInt(state.numberLamina),
               tokens: 500 * parseInt(result.value),
             };
             solicitud(newNotify);
