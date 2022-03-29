@@ -37,17 +37,18 @@ export const ModalLamina = () => {
     let postNotifyError = undefined;
 
     const handleMinus = async () => {
-      var rest=parseInt(state.quantityLamina)-1
+      var rest=parseInt(state.cuantityLamina)-1
       if(rest<0){
         rest=0
       }
-      state.setQuantityLamina(rest)
-
+      state.setCuantityLamina(rest)
       const newLamina = {
-        laminaid: state.numberLamina,
-        cuantity: rest,
+        laminaid: state.laminaId,
         img: state.imgLamina,
+        cuantity: rest,
         filter: state.filterLamina,
+        title: state.numberLamina,
+        page: state.currentPage,
       };
       const { error: putLaminaError } = await editLamina(
         newLamina
@@ -55,14 +56,15 @@ export const ModalLamina = () => {
     }
 
     const handlePlus = async () => {
-      var sum=parseInt(state.quantityLamina)+1
-      state.setQuantityLamina(sum)
-
+      var sum=parseInt(state.cuantityLamina)+1
+      state.setCuantityLamina(sum)
       const newLamina = {
-        laminaid: state.numberLamina,
-        cuantity: sum,
+        laminaid: state.laminaId,
         img: state.imgLamina,
+        cuantity: sum,
         filter: state.filterLamina,
+        title: state.numberLamina,
+        page: state.currentPage,
       };
       const { error: putLaminaError } = await editLamina(
         newLamina
@@ -70,20 +72,23 @@ export const ModalLamina = () => {
     }
 
     const handlePegar = async () => {
-      var rest=parseInt(state.quantityLamina)-1
+      var rest=parseInt(state.cuantityLamina)-1
       if(rest<0){
         rest=0
       }else{
-        state.setFilterLamina("sin-filtro")
+        state.setFilterLamina(true)
         const newLamina = {
-          laminaid: state.numberLamina,
-          cuantity: rest,
+          laminaid: state.laminaId,
           img: state.imgLamina,
-          filter: state.filterLamina,
+          cuantity: rest,
+          filter: true,
+          title: state.numberLamina,
+          page: state.currentPage,
         };
+        console.log(newLamina)
         const { error: putLaminaError } = await editLamina(newLamina);
       }
-      state.setQuantityLamina(rest)
+      state.setCuantityLamina(rest)
     }
 
     const solicitud = async(newNotify) =>{
@@ -160,7 +165,7 @@ export const ModalLamina = () => {
             <Box border={'2px solid #000'} padding={'5px'}>
             <img
                 key={state.imgLamina}
-                className={state.filterLamina}
+                className={`banner ${state.filterLamina ? "sin-filtro" : "filtro-bn"}`}
                 width={'100%'}
                 height={'100%'}
                 src={`${state.imgLamina}?w=248&fit=crop&auto=format`}
@@ -190,7 +195,7 @@ export const ModalLamina = () => {
                 </Grid>
                 <Grid item >
                   <h3 id="modal-modal-description">
-                    {state.quantityLamina}
+                    {state.cuantityLamina}
                   </h3>
                 </Grid>
                 <Grid item >

@@ -19,14 +19,12 @@ export const AlbumPage = () => {
 
     const handleClick = (lamina) => {
         state.setOpen(true)
-        state.setNumberLamina(lamina.laminaid)
-        state.setQuantityLamina(lamina.cuantity)
+        state.setLaminaId(lamina.laminaid)
+        state.setNumberLamina(lamina.title)
+        state.setCuantityLamina(lamina.cuantity)
         state.setImgLamina(lamina.img)
-        if(lamina.filter){
-            state.setFilterLamina('sin-filtro')
-        }else{
-            state.setFilterLamina('filtro-bn')
-        }
+        state.setFilterLamina(lamina.filter)
+        console.log(lamina)
     }
 
     const handleChange = (event, value) => {
@@ -52,7 +50,7 @@ export const AlbumPage = () => {
                 {laminas?.map((lamina) => (
                     <Box>
                         {(lamina.page == state.currentPage) ? 
-                            <Grid item key={lamina.laminaid} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
+                            <Grid item key={lamina.title} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
                                 
                                     <ImageListItem onClick={()=>handleClick(lamina)}>
                                         <img
@@ -64,8 +62,7 @@ export const AlbumPage = () => {
                                         />
                                         <ImageListItemBar
                                             position={'top'}
-                                            title={lamina.laminaid}
-                                            subtitle={lamina.title}
+                                            title={lamina.title}
                                         />
                                     </ImageListItem>
                                 
@@ -74,8 +71,9 @@ export const AlbumPage = () => {
                         : null}
                     </Box>
                 ))}
-                <Pagination sx={{paddingTop: '10px'}} count={38} color="primary" showFirstButton showLastButton onChange={handleChange}/>
+                
             </Grid>
+            <Pagination sx={{paddingTop: '10px'}} count={38} color="primary" showFirstButton showLastButton onChange={handleChange}/>
             <div>
                 <ModalLamina/>
             </div>

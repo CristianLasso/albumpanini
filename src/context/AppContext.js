@@ -8,10 +8,11 @@ export const AppContextWrapper = (props) => {
     const [albumName, setAlbumName] = useState("Tus albumes");
     const [open, setOpen] = useState(false);
     const [token, setToken] = useState(0);
+    const [laminaId, setLaminaId] = useState(0);
     const [imgLamina, setImgLamina] = useState("");
     const [numberLamina, setNumberLamina] = useState("");
-    const [quantityLamina, setQuantityLamina] = useState(0);
-    const [filterLamina, setFilterLamina] = useState("filtro-bn");
+    const [cuantityLamina, setCuantityLamina] = useState(0);
+    const [filterLamina, setFilterLamina] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     
 
@@ -26,12 +27,14 @@ export const AppContextWrapper = (props) => {
         setOpen,
         token,
         setToken,
+        laminaId,
+        setLaminaId,
         imgLamina,
         setImgLamina,
         numberLamina,
         setNumberLamina,
-        quantityLamina,
-        setQuantityLamina,
+        cuantityLamina,
+        setCuantityLamina,
         filterLamina,
         setFilterLamina,
         currentPage,
