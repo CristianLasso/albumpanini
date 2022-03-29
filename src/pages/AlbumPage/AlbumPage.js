@@ -5,6 +5,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Pagination from '@mui/material/Pagination';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
 import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
@@ -17,7 +18,6 @@ export const AlbumPage = () => {
     //const { data: laminasData } = useGetLaminasQuery();
 
     const handleClick = (lamina) => {
-        console.log('Click')
         state.setOpen(true)
         state.setNumberLamina(lamina.laminaid)
         state.setQuantityLamina(lamina.cuantity)
@@ -29,6 +29,11 @@ export const AlbumPage = () => {
         }
     }
 
+    const handleChange = (event, value) => {
+        state.setCurrentPage(value);
+        console.log(value)
+      };
+
     return(
         <Box>
             <AppBar/>
@@ -36,7 +41,7 @@ export const AlbumPage = () => {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: "flex-start",
+                    justifyContent: "center",
                     flexWrap: 'wrap',
                     m: 1,
                     height: '100%',
@@ -45,25 +50,32 @@ export const AlbumPage = () => {
                   }}
             >
                 {laminas?.map((lamina) => (
-                    <Grid item key={lamina.laminaid} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
-                        <ImageListItem onClick={()=>handleClick(lamina)}>
-                            <img
-                                className={`banner ${lamina.filter ? "sin-filtro" : "filtro-bn"}`}
-                                src={`${lamina.img}?w=248&fit=crop&auto=format`}
-                                srcSet={`${lamina.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                alt={lamina.title}
-                                loading="lazy"
-                            />
-                            <ImageListItemBar
-                                position={'top'}
-                                title={lamina.laminaid}
-                                subtitle={lamina.title}
-                            />
-                        </ImageListItem>
-                    </Grid> 
+                    <Box>
+                        {(lamina.page == state.currentPage) ? 
+                            <Grid item key={lamina.laminaid} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
+                                
+                                    <ImageListItem onClick={()=>handleClick(lamina)}>
+                                        <img
+                                            className={`banner ${lamina.filter ? "sin-filtro" : "filtro-bn"}`}
+                                            src={`${lamina.img}?w=248&fit=crop&auto=format`}
+                                            srcSet={`${lamina.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                            alt={lamina.title}
+                                            loading="lazy"
+                                        />
+                                        <ImageListItemBar
+                                            position={'top'}
+                                            title={lamina.laminaid}
+                                            subtitle={lamina.title}
+                                        />
+                                    </ImageListItem>
+                                
+                                
+                            </Grid> 
+                        : null}
+                    </Box>
                 ))}
+                <Pagination sx={{paddingTop: '10px'}} count={38} color="primary" showFirstButton showLastButton onChange={handleChange}/>
             </Grid>
-            
             <div>
                 <ModalLamina/>
             </div>

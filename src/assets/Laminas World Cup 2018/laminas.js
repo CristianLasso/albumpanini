@@ -2,47 +2,56 @@ export const laminasData = [
     {
         "img":"https://www.laststicker.com/i/cards/3852/sp01.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 1,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/mr5.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 1,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/mr2.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 1,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/u2.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 2,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/mr1.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 2,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/sp06.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 2,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/sp04.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 3,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/mr6.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 3,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/mp7.jpg",
         "cuantity": 0,
-        "filter": false
+        "filter": false,
+        "page": 3,
     },
     {
         "img":"https://www.laststicker.com/i/cards/3852/mr8.jpg",

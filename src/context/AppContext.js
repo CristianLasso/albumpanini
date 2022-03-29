@@ -12,6 +12,7 @@ export const AppContextWrapper = (props) => {
     const [numberLamina, setNumberLamina] = useState("");
     const [quantityLamina, setQuantityLamina] = useState(0);
     const [filterLamina, setFilterLamina] = useState("filtro-bn");
+    const [currentPage, setCurrentPage] = useState(1);
     
 
     const state = {
@@ -33,6 +34,8 @@ export const AppContextWrapper = (props) => {
         setQuantityLamina,
         filterLamina,
         setFilterLamina,
+        currentPage,
+        setCurrentPage,
     };
 
     return (

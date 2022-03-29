@@ -34,6 +34,7 @@ export const ModalLamina = () => {
 
     const [createNotify] = useAddNotifyMutation();
     const [editLamina] = usePutLaminaMutation();
+    let postNotifyError = undefined;
 
     const handleMinus = async () => {
       var rest=parseInt(state.quantityLamina)-1
@@ -80,14 +81,17 @@ export const ModalLamina = () => {
           img: state.imgLamina,
           filter: state.filterLamina,
         };
-        const { error: putLaminaError } = await editLamina(
-          newLamina
-        );
+        const { error: putLaminaError } = await editLamina(newLamina);
       }
       state.setQuantityLamina(rest)
     }
 
-    const handleSolicitar = () => {
+    const solicitud = async(newNotify) =>{
+      const { error: postNotify } = await createNotify(newNotify);
+      postNotifyError = postNotify;
+    }
+
+    const handleSolicitar = async () => {
       handleClose()
       Swal.fire({
         title: 'Esta lámina tiene un costo de 500 tokens',
@@ -102,7 +106,7 @@ export const ModalLamina = () => {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Confirmar solicitud'
       }).then((result) => {
-        if (result.isConfirmed) {
+        if (result.isConfirmed){
           var rest=parseInt(state.token)-500 * parseInt(result.value)
           if(rest<0){
             Swal.fire({
@@ -120,7 +124,7 @@ export const ModalLamina = () => {
               number: parseInt(state.numberLamina),
               tokens: 500 * parseInt(result.value),
             };
-            const { error: postNotifyError } = await createNotify(newNotify);
+            solicitud(newNotify);
             if(postNotifyError !== undefined){
               return (Swal.fire({
                 icon: 'error',

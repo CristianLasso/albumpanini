@@ -21,6 +21,14 @@ export const mainAPI = createApi({
       }),
     }),
 
+    logUser: builder.mutation({
+      query: (user) => ({
+        url: ``,
+        method: "POST",
+        body: user,      
+      }),
+    }),
+
     putUser: builder.mutation({
       query: (user) => ({
         url: `${user.id}`,
@@ -118,6 +126,7 @@ export const mainAPI = createApi({
 export const {
   useGetUsersQuery,
   useAddUserMutation,
+  useLogUserMutation,
   usePutUserMutation,
   useGetAlbumsQuery,
   useAddAlbumMutation,

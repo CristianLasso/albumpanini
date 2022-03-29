@@ -7,12 +7,17 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Swal from 'sweetalert2';
+
+import {useLogUserMutation} from '../../redux/api/mainAPI';
 
 
 
 export const LoginPage = () => {
   const state = useContext(AppContext);
   const navigate = useNavigate();
+
+  const [loginUser] = useLogUserMutation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +28,22 @@ export const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     navigate('/home')
+    const newUser = {
+      email: email,
+      password: password
+    };
+    const { error: postUserError } = await loginUser(newUser);
+    if(postUserError !== undefined){
+      return (Swal.fire({
+        icon: 'error',
+        title: 'Ups...',
+        text: 'Verifica que la información sea correcta!',
+        confirmButtonColor: 'primary',
+        confirmButtonText: "Entendido!"
+      }))
+    }else{
+      navigate('/home')
+    }
   }
 
   const style = {

@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 import {useAddUserMutation} from '../../redux/api/mainAPI';
 
@@ -20,6 +20,10 @@ const locations = [
   {
     value: 'Sur',
     label: 'Sur',
+  },
+  {
+    value: 'Centro',
+    label: 'Centro',
   },
   {
     value: 'Oriente',
@@ -58,8 +62,8 @@ export const SignupPage = () => {
         email: email,
         password: password
       };
-      const { error: putUserError } = await createUser(newUser);
-      if(putUserError !== undefined){
+      const { error: postUserError } = await createUser(newUser);
+      if(postUserError !== undefined){
         return (Swal.fire({
           icon: 'error',
           title: 'Ups...',
