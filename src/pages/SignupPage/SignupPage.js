@@ -40,25 +40,39 @@ export const SignupPage = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
-  const [nickName, setNickName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [documentId, setDocumentId] = useState('');
+  const [isActive, setIsActive] = useState('');
+  const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
   const handleName = e => setName(e.target.value);
-  const handleNickName = e => setNickName(e.target.value);
+  const handleLastName = e => setLastName(e.target.value);
+  const handleUserName = e => setUserName(e.target.value);
+  const handleDocumentId = e => setDocumentId(e.target.value);
+  const handleIsActive = e => setIsActive(e.target.value);
+  const handlePhone = e => setPhone(e.target.value);
   const handleLocation = e => setLocation(e.target.value);
   const handleEmail = e => setEmail(e.target.value);
   const handlePassword = e => setPassword(e.target.value);
+  const handlePasswordConfirmation = e => setPasswordConfirmation(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
       const newUser = {
-        userName: name,
-        userUsername: nickName,
-        userLastname: location,
+        userPassword: password,
+        userUsername: userName,
+        userPasswordConfirmation: passwordConfirmation,
+        userPhone: phone,
         userEmail: email,
-        userPassword: password
+        userDocumentId: documentId,
+        userIsActive: 'Y',
+        userLastname: lastName,
+        userName: name
       };
       axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/', newUser)
       .then((newUser) => {
@@ -110,7 +124,16 @@ export const SignupPage = () => {
                 <TextField fullWidth label="Nombre" variant="standard" onChange={handleName} />
               </Box>
               <Box sx={{marginTop:3}}>
-                <TextField fullWidth label='Apodo' variant="standard" onChange={handleNickName} />
+                <TextField fullWidth label="Apellido" variant="standard" onChange={handleLastName} />
+              </Box>
+              <Box sx={{marginTop:3}}>
+                <TextField fullWidth label='Username' variant="standard" helperText="Tu username será el nombre con el que ingresarás a la aplicación" onChange={handleUserName} />
+              </Box>
+              <Box sx={{marginTop:3}}>
+                <TextField fullWidth label="Documento de identidad" variant="standard" onChange={handleDocumentId} />
+              </Box>
+              <Box sx={{marginTop:3}}>
+                <TextField fullWidth label='Telefono' variant="standard" onChange={handlePhone} />
               </Box>
               <Box sx={{marginTop:3}}>
               <TextField
@@ -135,6 +158,9 @@ export const SignupPage = () => {
               </Box>
               <Box sx={{marginTop:3}}>
                 <TextField fullWidth type='password' label='Contraseña' variant="standard" onChange={handlePassword} />
+              </Box>
+              <Box sx={{marginTop:3}}>
+                <TextField fullWidth type='password' label='Confirmar contraseña' variant="standard" onChange={handlePasswordConfirmation} />
               </Box>
               <Button color="primary" sx={{marginTop:5}} variant="outlined" type='submit' value='Entrar'>Registrarse</Button>
             </form>

@@ -27,10 +27,10 @@ export const LoginPage = () => {
     e.preventDefault();
     navigate('/home')
     const newUser = {
-      email: userName,
-      password: password
+      username: userName,
+      password: password,
     };
-    axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/login/', newUser)
+    axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/login', newUser)
     .then((newUser) => {
       console.log(newUser)
       navigate('/home')

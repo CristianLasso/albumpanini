@@ -78,7 +78,7 @@ export const HomePage = () => {
                                     <ListItemIcon>
                                         <AutoStoriesIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={album.albumName} secondary={album.laminasnumber + " Laminas"} />
+                                    <ListItemText primary={album.albumName} secondary={''} />
                                 </ListItemButton>
                             </ListItem>
                         </Box>
