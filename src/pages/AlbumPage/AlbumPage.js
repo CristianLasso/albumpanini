@@ -9,7 +9,6 @@ import Pagination from '@mui/material/Pagination';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
 import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
-//import {useGetLaminasQuery} from '../../redux/api/mainAPI';
 
 export const AlbumPage = () => {
     const state = useContext(AppContext);
@@ -73,7 +72,7 @@ export const AlbumPage = () => {
                 ))}
                 
             </Grid>
-            <Pagination sx={{paddingTop: '10px'}} count={38} color="primary" showFirstButton showLastButton onChange={handleChange}/>
+            <Pagination sx={{paddingTop: '10px', position: 'absolute', left: '50%', transform: 'translate(-50%)'}} count={36} color="primary" showFirstButton showLastButton onChange={handleChange}/>
             <div>
                 <ModalLamina/>
             </div>

@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -12,9 +12,25 @@ import "./AppBar.css"
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
 
+import axios from 'axios';
+
 export default function ButtonAppBar() {
     const state = useContext(AppContext);
     const navigate = useNavigate();
+
+    const [notis, setNotis] = useState(0);
+
+    useEffect(() => {
+        myFunction();
+        return () => {
+            setNotis({}); // This worked for me
+        };
+    }, []);
+
+    const myFunction = () => {
+        axios.get('http://localhost:8080/api/users/notifys/').then(res => {setNotis(res.data.length)
+        console.log(res.data.length)});
+    }
 
     const handleLogout = async () => {
       state.setAlbumName('Tus albumes')
@@ -48,7 +64,7 @@ export default function ButtonAppBar() {
             </Badge>
           </IconButton>
           <IconButton className='button' color="inherit" onClick={handleNotifications}>
-            <Badge badgeContent={state.userNotis} color="error">
+            <Badge badgeContent={notis} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>

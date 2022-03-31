@@ -8,8 +8,6 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-import {useAddNotifyMutation} from '../../redux/api/mainAPI';
-
 import axios from 'axios';
 
 const style = {
@@ -32,9 +30,6 @@ export const ModalLamina = () => {
 
     const state = useContext(AppContext);
     const handleClose = () => state.setOpen(false);
-
-    const [createNotify] = useAddNotifyMutation();
-    let postNotifyError = undefined;
 
     const handleMinus = async () => {
       var rest=parseInt(state.cuantityLamina)-1
@@ -127,25 +122,26 @@ export const ModalLamina = () => {
               lamina: parseInt(state.numberLamina),
               tokens: 500 * parseInt(result.value),
             };
-            setTimeout(async () =>{
-              const { error: postNotifyError } = await createNotify(newNotify);
-              if(postNotifyError !== undefined){
-                return (Swal.fire({
-                  icon: 'error',
-                  title: 'Ups...',
-                  text: 'Parece que algo salio mal!',
-                  confirmButtonColor: 'primary',
-                  confirmButtonText: "Entendido!"
-                }))
-              }else{
-                Swal.fire(
-                  '¡¡Solicitud realizada!!',
-                  'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
-                  'success'
-                )
-                state.setToken(rest)
-              }
-            },2000);
+            axios.post('http://localhost:8080/api/users/notifys/', newNotify)
+            .then((newNotify) =>{
+              console.log(newNotify)
+              Swal.fire(
+                '¡¡Solicitud realizada!!',
+                'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
+                'success'
+              )
+              state.setToken(rest)
+            })
+            .catch((error) =>{
+              console.log(error)
+              return (Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Parece que algo salio mal!',
+                confirmButtonColor: 'primary',
+                confirmButtonText: "Entendido!"
+              }))
+            })
           }
         }
       })

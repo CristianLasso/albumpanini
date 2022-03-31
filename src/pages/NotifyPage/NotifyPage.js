@@ -33,7 +33,6 @@ const style = {
 
 export const NotifyPage = () => {
     const state = useContext(AppContext);
-    let putNotifyError = undefined;
     const [notis, setNotis] = useState(null);
 
     useEffect(() => {
@@ -131,7 +130,6 @@ export const NotifyPage = () => {
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {notis?.map((noti) => (
                         <Box key={noti.id} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
-                            {state.setUserNotis(notis.length)}
                             <ListItem width={'auto'} height={'auto'} disablePadding>
                                 <ListItemButton onClick={()=>handleSelectNoti(noti)}>
                                     <ListItemText primary={noti.title} secondary={noti.info} />
