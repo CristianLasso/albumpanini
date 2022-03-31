@@ -14,6 +14,7 @@ export const AppContextWrapper = (props) => {
     const [cuantityLamina, setCuantityLamina] = useState(0);
     const [filterLamina, setFilterLamina] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [userNotis, setUserNotis] = useState(0)
     
 
     const state = {
@@ -39,6 +40,8 @@ export const AppContextWrapper = (props) => {
         setFilterLamina,
         currentPage,
         setCurrentPage,
+        userNotis,
+        setUserNotis,
     };
 
     return (

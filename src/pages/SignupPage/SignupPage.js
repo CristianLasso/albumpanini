@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Swal from 'sweetalert2';
 
-import {useAddUserMutation} from '../../redux/api/mainAPI';
+import axios from 'axios';
 
 const locations = [
   {
@@ -39,8 +39,6 @@ export const SignupPage = () => {
   const state = useContext(AppContext);
   const navigate = useNavigate();
 
-  const [createUser] = useAddUserMutation();
-
   const [name, setName] = useState('');
   const [nickName, setNickName] = useState('');
   const [location, setLocation] = useState('');
@@ -56,14 +54,19 @@ export const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
       const newUser = {
-        name: name,
-        nickName: nickName,
-        location: location,
-        email: email,
-        password: password
+        userName: name,
+        userUsername: nickName,
+        userLastname: location,
+        userEmail: email,
+        userPassword: password
       };
-      const { error: postUserError } = await createUser(newUser);
-      if(postUserError !== undefined){
+      axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/', newUser)
+      .then((newUser) => {
+        console.log(newUser)
+        navigate('/home')
+      })
+      .catch((error) => {
+        console.log(error)
         return (Swal.fire({
           icon: 'error',
           title: 'Ups...',
@@ -71,9 +74,7 @@ export const SignupPage = () => {
           confirmButtonColor: 'primary',
           confirmButtonText: "Entendido!"
         }))
-      }else{
-        navigate('/home')
-      }
+      })
   }
 
   const style = {

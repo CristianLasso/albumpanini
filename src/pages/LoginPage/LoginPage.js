@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
 
-import {useLogUserMutation} from '../../redux/api/mainAPI';
+import axios from 'axios';
 
 
 
@@ -17,23 +17,26 @@ export const LoginPage = () => {
   const state = useContext(AppContext);
   const navigate = useNavigate();
 
-  const [loginUser] = useLogUserMutation();
-
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmail = e => setEmail(e.target.value);
+  const handleUserName = e => setUserName(e.target.value);
   const handlePassword = e => setPassword(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     navigate('/home')
     const newUser = {
-      email: email,
+      email: userName,
       password: password
     };
-    const { error: postUserError } = await loginUser(newUser);
-    if(postUserError !== undefined){
+    axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/login/', newUser)
+    .then((newUser) => {
+      console.log(newUser)
+      navigate('/home')
+    })
+    .catch((error) => {
+      console.log(error)
       return (Swal.fire({
         icon: 'error',
         title: 'Ups...',
@@ -41,9 +44,7 @@ export const LoginPage = () => {
         confirmButtonColor: 'primary',
         confirmButtonText: "Entendido!"
       }))
-    }else{
-      navigate('/home')
-    }
+    })
   }
 
   const style = {
@@ -72,7 +73,7 @@ export const LoginPage = () => {
           <Box sx={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
             <form onSubmit={handleSubmit}>
               <Box sx={{marginTop:2}}>
-                <TextField fullWidth color="primary" type='email' label='Email' variant="standard" onChange={handleEmail} />
+                <TextField fullWidth color="primary" type='username' label='Nombre de usuario' variant="standard" onChange={handleUserName} />
               </Box>
               <Box sx={{marginTop:3}}>
                 <TextField fullWidth color="primary" type='password' label='Contraseña' variant="standard" onChange={handlePassword} />

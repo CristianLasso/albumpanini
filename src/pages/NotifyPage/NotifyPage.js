@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Swal from 'sweetalert2'
 
+import axios from 'axios';
+
 
 const style = {
     position: 'absolute',
@@ -31,13 +33,26 @@ const style = {
 
 export const NotifyPage = () => {
     const state = useContext(AppContext);
+    let putNotifyError = undefined;
+    const [notis, setNotis] = useState(null);
+
+    useEffect(() => {
+        myFunction();
+        return () => {
+            setNotis({}); // This worked for me
+        };
+    }, []);
+
+    const myFunction = () => {
+        axios.get('http://localhost:8080/api/users/notifys/').then(res => {setNotis(res.data)});
+    }
 
     const notifys = [
         {
             id: 1,
             title: 'Solicitud',
             info: 'Solicitaste 5 unidades de la lámina 53',
-            soli: true,
+            solicitud: true,
             quantity: 5,
             lamina: '53',
             tokens: 500,
@@ -46,18 +61,19 @@ export const NotifyPage = () => {
             id: 2,
             title: 'Compra',
             info: 'Recargaste 500 tokens! Aprovechalos',
-            soli: false,
+            solicitud: false,
             quantity: 0,
             lamina: '',
             tokens: 0,
         },
     ]
 
-    const handleSelectNoti = (item) => {
-        console.log(item.title)
+    const handleSelectNoti = (noti) => {
+        console.log(noti)
     }
 
-    const handleCancelar = () => {
+    const handleCancelar = (noti) => {
+        console.log(noti)
         Swal.fire({
           title: 'Cancelar solicitud',
           text: "Estas seguro de que quieres cancelar la solicitud? Tus tokens seran devueltos.",
@@ -71,13 +87,36 @@ export const NotifyPage = () => {
           confirmButtonText: 'Si, estoy seguro'
         }).then((result) => {
             if (result.isConfirmed) {
-                var sum = parseInt(state.token + 500)
-                state.setToken(sum)
-                Swal.fire(
-                    '¡¡Solicitud cancelada!!',
-                    '¡Tu solicitud ha sido cancelada con exito y los tokens cargados a tu cuenta para que puedas seguir comprando otras láminas!',
-                    'success'
-                )
+                const newNotify = {
+                    notifyid: noti.notifyid,
+                    title: 'Solicitud cancelada',
+                    info: noti.info,
+                    solicitud: false,
+                    cuantity: noti.cuantity,
+                    lamina: noti.lamina,
+                    tokens: 0,
+                };
+                    axios.put('http://localhost:8080/api/users/notifys/'+ noti.notifyid, newNotify)
+                    .then(() => {
+                        myFunction()
+                        var sum = parseInt(state.token + noti.tokens)
+                        state.setToken(sum)
+                        Swal.fire(
+                            '¡¡Solicitud cancelada!!',
+                            '¡Tu solicitud ha sido cancelada con exito y los tokens cargados a tu cuenta para que puedas seguir comprando otras láminas!',
+                            'success'
+                        )
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        return (Swal.fire({
+                            icon: 'error',
+                            title: 'Ups...',
+                            text: 'Parece que algo salio mal!',
+                            confirmButtonColor: 'primary',
+                            confirmButtonText: "Entendido!"
+                        }))
+                    })
             }
         })
       }
@@ -90,15 +129,16 @@ export const NotifyPage = () => {
                     Notificaciones:
                 </Typography>
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                    {notifys?.map((noti) => (
+                    {notis?.map((noti) => (
                         <Box key={noti.id} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
+                            {state.setUserNotis(notis.length)}
                             <ListItem width={'auto'} height={'auto'} disablePadding>
                                 <ListItemButton onClick={()=>handleSelectNoti(noti)}>
                                     <ListItemText primary={noti.title} secondary={noti.info} />
                                 </ListItemButton>
                                 
                             </ListItem>
-                            {noti.soli ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar solicitud</Button> : <div/>}
+                            {noti.solicitud ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar solicitud</Button> : <div/>}
                         </Box>
                         
                     ))}

@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import Swal from 'sweetalert2'
 
-import {useAddAlbumMutation} from '../../redux/api/mainAPI';
+import axios from 'axios';
 
 const style = {
     position: 'absolute',
@@ -37,7 +37,6 @@ export const ModalAlbum = () => {
     const handleClose = () => state.setOpen(false);
     const navigate = useNavigate();
     const [nameChange, setNameChange] = useState('');
-    const [createAlbum] = useAddAlbumMutation();
 
     const handleName = e => setNameChange(e.target.value);
 
@@ -50,9 +49,14 @@ export const ModalAlbum = () => {
           albumName:String(nameChange),
           laminasNumber:0
         };
-        const { error: postAlbumError } = await createAlbum(newAlbum);
-        console.log(postAlbumError)
-        if(postAlbumError !== undefined){
+        axios.post('http://localhost:8080/api/users/albums/', newAlbum)
+        .then((newAlbum) => {
+          console.log(newAlbum)
+          state.setCurrentAlbum(newAlbum)
+          navigate('/album')
+        })
+        .catch((error) => {
+          console.log(error)
           return (Swal.fire({
             icon: 'error',
             title: 'Ups...',
@@ -60,9 +64,7 @@ export const ModalAlbum = () => {
             confirmButtonColor: 'primary',
             confirmButtonText: "Entendido!"
           }))
-        }else{
-          navigate('/album')
-        }
+        })
     }
 
     return(

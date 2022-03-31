@@ -9,7 +9,8 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
 import {useAddNotifyMutation} from '../../redux/api/mainAPI';
-import { usePutLaminaMutation } from '../../redux/api/mainAPI';
+
+import axios from 'axios';
 
 const style = {
     position: 'absolute',
@@ -33,26 +34,26 @@ export const ModalLamina = () => {
     const handleClose = () => state.setOpen(false);
 
     const [createNotify] = useAddNotifyMutation();
-    const [editLamina] = usePutLaminaMutation();
     let postNotifyError = undefined;
 
     const handleMinus = async () => {
       var rest=parseInt(state.cuantityLamina)-1
       if(rest<0){
         rest=0
+      }else{
+        state.setCuantityLamina(rest)
+        const newLamina = {
+          laminaid: state.laminaId,
+          img: state.imgLamina,
+          cuantity: rest,
+          filter: state.filterLamina,
+          title: state.numberLamina,
+          page: state.currentPage,
+        };
+        axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+        .then((newLamina) => {console.log(newLamina)})
+        .catch((error) => {console.log(error)})
       }
-      state.setCuantityLamina(rest)
-      const newLamina = {
-        laminaid: state.laminaId,
-        img: state.imgLamina,
-        cuantity: rest,
-        filter: state.filterLamina,
-        title: state.numberLamina,
-        page: state.currentPage,
-      };
-      const { error: putLaminaError } = await editLamina(
-        newLamina
-      );
     }
 
     const handlePlus = async () => {
@@ -66,9 +67,9 @@ export const ModalLamina = () => {
         title: state.numberLamina,
         page: state.currentPage,
       };
-      const { error: putLaminaError } = await editLamina(
-        newLamina
-      );
+      axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+      .then((newLamina) => {console.log(newLamina)})
+      .catch((error) => {console.log(error)})
     }
 
     const handlePegar = async () => {
@@ -86,14 +87,11 @@ export const ModalLamina = () => {
           page: state.currentPage,
         };
         console.log(newLamina)
-        const { error: putLaminaError } = await editLamina(newLamina);
+        axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+        .then((newLamina) => {console.log(newLamina)})
+        .catch((error) => {console.log(error)})
       }
       state.setCuantityLamina(rest)
-    }
-
-    const solicitud = async(newNotify) =>{
-      const { error: postNotify } = await createNotify(newNotify);
-      postNotifyError = postNotify;
     }
 
     const handleSolicitar = async () => {
@@ -123,29 +121,31 @@ export const ModalLamina = () => {
           if(rest>=0){
             const newNotify = {
               title: 'Solicitud',
-              info: 'Solicitaste' + result.value + ' unidades de la lámina ' + state.numberLamina,
-              soli: true,
+              info: 'Solicitaste ' + result.value + ' unidades de la lámina ' + state.numberLamina,
+              solicitud: true,
               quantity: parseInt(result.value),
               lamina: parseInt(state.numberLamina),
               tokens: 500 * parseInt(result.value),
             };
-            solicitud(newNotify);
-            if(postNotifyError !== undefined){
-              return (Swal.fire({
-                icon: 'error',
-                title: 'Ups...',
-                text: 'Parece que algo salio mal!',
-                confirmButtonColor: 'primary',
-                confirmButtonText: "Entendido!"
-              }))
-            }else{
-              Swal.fire(
-                '¡¡Solicitud realizada!!',
-                'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
-                'success'
-              )
-              state.setToken(rest)
-            }
+            setTimeout(async () =>{
+              const { error: postNotifyError } = await createNotify(newNotify);
+              if(postNotifyError !== undefined){
+                return (Swal.fire({
+                  icon: 'error',
+                  title: 'Ups...',
+                  text: 'Parece que algo salio mal!',
+                  confirmButtonColor: 'primary',
+                  confirmButtonText: "Entendido!"
+                }))
+              }else{
+                Swal.fire(
+                  '¡¡Solicitud realizada!!',
+                  'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
+                  'success'
+                )
+                state.setToken(rest)
+              }
+            },2000);
           }
         }
       })

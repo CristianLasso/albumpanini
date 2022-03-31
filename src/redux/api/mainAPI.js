@@ -15,7 +15,7 @@ export const mainAPI = createApi({
 
     addUser: builder.mutation({
       query: (user) => ({
-        url: ``,
+        url: `https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/`,
         method: "POST",
         body: user,      
       }),
@@ -23,7 +23,7 @@ export const mainAPI = createApi({
 
     logUser: builder.mutation({
       query: (user) => ({
-        url: ``,
+        url: `https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/login/`,
         method: "POST",
         body: user,      
       }),

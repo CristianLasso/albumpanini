@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import "./HomePage.css";
 import AppContext from "../../context/AppContext";
 import List from '@mui/material/List';
@@ -14,7 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
-import { useGetAlbumsQuery } from '../../redux/api/mainAPI';
+
+import axios from 'axios';
 
 
 const style = {
@@ -36,13 +37,26 @@ const style = {
 export const HomePage = () => {
     const state = useContext(AppContext);
     const navigate = useNavigate();
+    const [albums, setAlbums] = useState(null);
 
-    const { data: albumData } = useGetAlbumsQuery();
+    useEffect(() => {
+        myFunction();
+        return () => {
+            setAlbums({}); // This worked for me
+        };
+    }, []);
+
+    const myFunction = () => {
+        axios.get('http://localhost:8080/api/users/albums/').then(res => {setAlbums(res.data)});
+    }
 
     const handleSelectAlbum = (item) => {
         state.setAlbumName(item.albumName)
         state.setCurrentAlbum(item)
-        navigate("/album")
+        console.log(item)
+        setTimeout(async () =>{
+            navigate("/album")
+        },2000);
     }
 
     const handleAgregar = () => {
@@ -57,7 +71,7 @@ export const HomePage = () => {
                     Tus albumes son:
                 </Typography>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    {albumData?.map((album) => (
+                    {albums?.map((album) => (
                         <Box key={album.albumid} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
                             <ListItem>
                                 <ListItemButton onClick={()=>handleSelectAlbum(album)}>

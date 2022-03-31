@@ -48,7 +48,7 @@ export default function ButtonAppBar() {
             </Badge>
           </IconButton>
           <IconButton className='button' color="inherit" onClick={handleNotifications}>
-            <Badge badgeContent={2} color="error">
+            <Badge badgeContent={state.userNotis} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
