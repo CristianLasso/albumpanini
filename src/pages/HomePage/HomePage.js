@@ -19,22 +19,22 @@ import axios from 'axios';
 
 
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 'auto',
+    margin: '80px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: "center",
+    flexWrap: 'wrap',
+    width: '60%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: "center",
+    flexDirection: 'column',
 };
 
 export const HomePage = () => {
+    var lam;
     const state = useContext(AppContext);
     const navigate = useNavigate();
     const [albums, setAlbums] = useState(null);
@@ -48,6 +48,14 @@ export const HomePage = () => {
 
     const myFunction = () => {
         axios.get('http://localhost:8080/api/users/albums/').then(res => {setAlbums(res.data)});
+    }
+
+    const countLam = (album) => {
+        lam = 0;
+        for(var i=0; i<album.laminas.length; i++){
+            lam = lam + album.laminas[i].cuantity;
+        }
+        console.log(lam)
     }
 
     const handleSelectAlbum = (item) => {
@@ -64,13 +72,13 @@ export const HomePage = () => {
     }
     
     return(
-        <Box>
+        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: "center",}}>
             <AppBar/>
             <Box sx={style}>
                 <Typography sx={{textAlign:'center'}} variant="h4" component="h3">
                     Tus albumes son:
                 </Typography>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                <List sx={{ width: '100%', maxWidth: '60%', bgcolor: 'background.paper' }}>
                     {albums?.map((album) => (
                         <Box key={album.albumid} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
                             <ListItem>
@@ -78,14 +86,15 @@ export const HomePage = () => {
                                     <ListItemIcon>
                                         <AutoStoriesIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={album.albumName} secondary={''} />
+                                    {countLam(album)}
+                                    <ListItemText primary={album.albumName} secondary={'Tienes ' + lam + ' láminas en este álbum'} />
                                 </ListItemButton>
                             </ListItem>
                         </Box>
                         
                     ))}
                 </List>
-                <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained" onClick={handleAgregar}><BookmarkAddIcon fontSize={'large'}/>Agregar album</Button>
+                <Button color="primary" sx={{marginTop:5}} variant="contained" onClick={handleAgregar}><BookmarkAddIcon fontSize={'large'}/>Agregar album</Button>
             </Box>
             <div>
                 <ModalAlbum/>

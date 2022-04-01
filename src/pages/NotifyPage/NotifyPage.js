@@ -16,19 +16,18 @@ import axios from 'axios';
 
 
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    margin: '80px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: "center",
+    flexWrap: 'wrap',
     width: '60%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: "center",
+    flexDirection: 'column',
 };
 
 export const NotifyPage = () => {
@@ -121,13 +120,13 @@ export const NotifyPage = () => {
       }
     
     return(
-        <Box>
+        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: "center",}}>
             <AppBar/>
             <Box sx={style}>
                 <Typography sx={{textAlign:'center'}} variant="h4" component="h3">
                     Notificaciones:
                 </Typography>
-                <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                <List sx={{ width: '100%', maxWidth: '60%', bgcolor: 'background.paper' }}>
                     {notis?.map((noti) => (
                         <Box key={noti.id} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
                             <ListItem width={'auto'} height={'auto'} disablePadding>
