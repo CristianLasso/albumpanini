@@ -73,7 +73,7 @@ export const AlbumPage = () => {
                 
             </Grid>
             <Pagination sx={{paddingTop: '10px', position: 'absolute', left: '50%', transform: 'translate(-50%)'}} count={36} color="primary" showFirstButton showLastButton onChange={handleChange}/>
-            <div>
+            <div maxHeight={'200px'}>
                 <ModalLamina/>
             </div>
         </Box>

@@ -23,9 +23,9 @@ export default function ButtonAppBar() {
     useEffect(() => {
         myFunction();
         return () => {
-            setNotis({}); // This worked for me
+            setNotis({});
         };
-    }, []);
+    }, [state.userNotis]);
 
     const myFunction = () => {
         axios.get('http://localhost:8080/api/users/notifys/').then(res => {setNotis(res.data.length)
