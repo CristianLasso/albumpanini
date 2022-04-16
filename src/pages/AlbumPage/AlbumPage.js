@@ -33,7 +33,6 @@ export const AlbumPage = () => {
 
     return(
         <Box>
-            <AppBar/>
             <Grid
                 sx={{
                     display: 'flex',

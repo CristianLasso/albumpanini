@@ -34,7 +34,6 @@ export const TokenPage = () => {
 
     return(
         <Box>
-            <AppBar/>
             <Box sx={style}>
                 <Typography sx={{textAlign:'center'}} variant="h4" component="h3">
                     Tu balance:

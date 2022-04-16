@@ -8,6 +8,7 @@ import {HomePage} from './pages/HomePage/HomePage';
 import {AlbumPage} from './pages/AlbumPage/AlbumPage';
 import {TokenPage} from './pages/TokenPage/TokenPage';
 import {NotifyPage} from './pages/NotifyPage/NotifyPage';
+import AppBar from './components/AppBar/AppBar';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -15,13 +16,34 @@ function App() {
   return (
     <AppContextWrapper>
       <Router>
+        
         <Routes>
           <Route exact path='/' element={<LoginPage/>} />
           <Route exact path='/register' element={<SignupPage/>} />
-          <Route exact path='/home' element={<HomePage/>} />
-          <Route exact path='/album' element={<AlbumPage/>} />
-          <Route exact path='/wallet' element={<TokenPage/>} />
-          <Route exact path='/notifys' element={<NotifyPage/>} />
+          <Route exact path='/home' element={
+            <div>
+              <AppBar/>
+              <HomePage/>
+            </div>} 
+          />
+          <Route exact path='/album' element={
+            <div>
+              <AppBar/>
+              <AlbumPage/>
+            </div>} 
+          />
+          <Route exact path='/wallet' element={
+            <div>
+              <AppBar/>
+              <TokenPage/>
+            </div>} 
+          />
+          <Route exact path='/notifys' element={
+            <div>
+              <AppBar/>
+              <NotifyPage/>
+            </div>} 
+          />
         </Routes>
       </Router>
     </AppContextWrapper>

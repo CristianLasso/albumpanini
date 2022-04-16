@@ -73,7 +73,6 @@ export const HomePage = () => {
     
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: "center",}}>
-            <AppBar/>
             <Box sx={style}>
                 <Typography sx={{textAlign:'center'}} variant="h4" component="h3">
                     Tus albumes son:
