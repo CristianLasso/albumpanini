@@ -8,6 +8,7 @@ import {HomePage} from './pages/HomePage/HomePage';
 import {AlbumPage} from './pages/AlbumPage/AlbumPage';
 import {TokenPage} from './pages/TokenPage/TokenPage';
 import {NotifyPage} from './pages/NotifyPage/NotifyPage';
+import {PricePage} from './pages/PricePage/PricePage';
 import AppBar from './components/AppBar/AppBar';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -42,6 +43,12 @@ function App() {
             <div>
               <AppBar/>
               <NotifyPage/>
+            </div>} 
+          />
+          <Route exact path='/prices' element={
+            <div>
+              <AppBar/>
+              <PricePage/>
             </div>} 
           />
         </Routes>

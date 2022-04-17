@@ -8,6 +8,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import PaidIcon from '@mui/icons-material/Paid';
 import "./AppBar.css"
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
@@ -52,6 +53,11 @@ export default function ButtonAppBar() {
       navigate('/wallet')
     };
 
+    const handlePrice = () => {
+      state.setAlbumName('Precios láminas')
+      navigate('/prices')
+    };
+
   return (
       <AppBar position='fixed'>
         <Toolbar>
@@ -74,6 +80,11 @@ export default function ButtonAppBar() {
                 {state.token}
               </Typography>
               <AccountBalanceWalletIcon />
+            </Badge>
+          </IconButton>
+          <IconButton className='button' color="inherit" onClick={handlePrice}>
+            <Badge badgeContent={0} color="error">
+              <PaidIcon />
             </Badge>
           </IconButton>
           <IconButton className='button' color="inherit" onClick={handleLogout}>
