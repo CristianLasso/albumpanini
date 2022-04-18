@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext, useState, useEffect} from "react";
 
 import Swal from 'sweetalert2'
 
@@ -9,37 +9,32 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 85 },
+  { field: 'precioid', headerName: 'ID', width: 85 },
   { field: 'number', headerName: 'No.', width: 95 },
   { field: 'lamina', headerName: 'Lámina', width: 180 },
+  { field: 'section', headerName: 'Sección', width: 150},
   { field: 'category', headerName: 'Categoría', width: 150 },
-  { field: 'price', headerName: 'Precio', width: 110 },
-];
-
-const rows = [
-  { id: 1, number: 1, lamina: 'Ball', category: 'Special', price: 500 },
-  { id: 2, number: 2, lamina: 'Ball', category: 'Estadio', price: 500 },
-  { id: 3, number: 3, lamina: 'Ball', category: 'Jugador', price: 500 },
-  { id: 4, number: 4, lamina: 'Ball', category: 'Escudo', price: 500 },
-  { id: 5, number: 5, lamina: 'Ball', category: 'Special', price: 500 },
-  { id: 6, number: 6, lamina: 'Ball', category: 'Estadio', price: 500 },
-  { id: 7, number: 7, lamina: 'Ball', category: 'Jugador', price: 500 },
-  { id: 8, number: 8, lamina: 'Ball', category: 'Escudo', price: 500 },
-  { id: 9, number: 9, lamina: 'Ball', category: 'Special', price: 500 },
-  { id: 10, number: 10, lamina: 'Ball', category: 'Estadio', price: 500 },
-  { id: 11, number: 11, lamina: 'Ball', category: 'Jugador', price: 500 },
-  { id: 12, number: 12, lamina: 'Ball', category: 'Escudo', price: 500 },
-  { id: 13, number: 13, lamina: 'Ball', category: 'Special', price: 500 },
-  { id: 14, number: 14, lamina: 'Ball', category: 'Estadio', price: 500 },
-  { id: 15, number: 15, lamina: 'Ball', category: 'Jugador', price: 500 },
-  { id: 16, number: 16, lamina: 'Ball', category: 'Escudo', price: 500 },
-  { id: 17, number: 17, lamina: 'Ball', category: 'Special', price: 500 },
+  { field: 'rank', headerName: 'Rango', width: 110 },
+  { field: 'price', headerName: 'Precio x Categoría', width: 190 },
 ];
 
 export const PricePage = () => {
 
+  const [prices, setPrices] = useState([]);
+
+    useEffect(() => {
+        myFunction();
+        return () => {
+            setPrices({});
+        };
+    }, []);
+
+    const myFunction = () => {
+        axios.get('http://localhost:8080/api/precios/').then(res => {setPrices(res.data)});
+    }
+
     const handleCalculate = () => {
-        console.log('Calcular precios')
+        console.log(prices)
         const newNotify = {
             title: '¡¡Actualización de precios!!',
             info: 'Los precios de las láminas fueron actualizados, deberias echarles un vistazo!',
@@ -70,12 +65,13 @@ export const PricePage = () => {
     }
 
   return (
-    <div style={{ height: '580px', width: '100%', paddingTop: '70px'}}>
-      <DataGrid
-        rows={rows}
+    <div style={{ height: '510px', width: '100%', paddingTop: '140px'}}>
+      <DataGrid 
+        getRowId={(row) => row.precioid}
+        rows={prices}
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
+        pageSize={30}
+        rowsPerPageOptions={[30]}
       />
       <Button sx={{position: 'fixed', top: '75px', right: '5px'}} color="primary" variant="contained" onClick={handleCalculate}><CalculateIcon fontSize={'large'}/>Recalcular precios</Button>
     </div>
