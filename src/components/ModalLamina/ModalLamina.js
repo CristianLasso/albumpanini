@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import AppContext from "../../context/AppContext";
 import Swal from 'sweetalert2'
 
@@ -89,7 +89,7 @@ export const ModalLamina = () => {
     const handleSolicitar = async () => {
       handleClose()
       Swal.fire({
-        title: 'Esta lámina tiene un costo de 500 tokens',
+        title: 'Esta lámina tiene un costo de ' + state.priceLamina + ' tokens',
         text: "Especifica cuantas unidades de esta lámina quieres solicitar",
         icon: 'warning',
         input: 'text',
@@ -102,7 +102,7 @@ export const ModalLamina = () => {
         confirmButtonText: 'Confirmar solicitud'
       }).then((result) => {
         if (result.isConfirmed){
-          var rest=parseInt(state.token)-500 * parseInt(result.value)
+          var rest=parseInt(state.token)-parseInt(state.priceLamina) * parseInt(result.value)
           if(rest<0){
             Swal.fire({
               icon: 'error',
@@ -114,10 +114,10 @@ export const ModalLamina = () => {
             const newNotify = {
               title: 'Solicitud',
               info: 'Solicitaste ' + result.value + ' unidades de la lámina ' + state.numberLamina,
-              solicitud: true,
+              type: 'Solicitud',
               quantity: parseInt(result.value),
               lamina: parseInt(state.numberLamina),
-              tokens: 500 * parseInt(result.value),
+              tokens: parseInt(state.priceLamina) * parseInt(result.value),
             };
             axios.post('http://localhost:8080/api/users/notifys/', newNotify)
             .then((newNotify) =>{
@@ -172,10 +172,10 @@ export const ModalLamina = () => {
             const newNotify = {
               title: 'Oferta',
               info: 'Ofertaste ' + result.value + ' unidades de la lámina ' + state.numberLamina,
-              solicitud: true,
+              type: 'Oferta',
               quantity: parseInt(result.value),
               lamina: parseInt(state.numberLamina),
-              tokens: 500 * parseInt(result.value),
+              tokens: parseInt(state.priceLamina) * parseInt(result.value),
             };
             axios.post('http://localhost:8080/api/users/notifys/', newNotify)
             .then((newNotify) =>{

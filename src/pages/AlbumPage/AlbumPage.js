@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import "./AlbumPage.css";
 import AppContext from "../../context/AppContext";
 import ImageListItem from '@mui/material/ImageListItem';
@@ -10,20 +10,36 @@ import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
 import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
 
+import axios from 'axios';
+
 export const AlbumPage = () => {
     const state = useContext(AppContext);
+    const [prices, setPrices] = useState([]);
     const laminas = state.currentAlbum.laminas;
 
-    //const { data: laminasData } = useGetLaminasQuery();
+    useEffect(() => {
+        myFunction();
+        return () => {
+            setPrices({});
+        };
+    }, []);
+
+    const myFunction = () => {
+        axios.get('http://localhost:8080/api/precios/').then(res => {setPrices(res.data)});
+    }
 
     const handleClick = (lamina) => {
-        state.setOpen(true)
-        state.setLaminaId(lamina.laminaid)
+        prices?.map((precio) => {
+            if(precio.lamina === lamina.title){
+                state.setPriceLamina(precio.price);
+            }
+        })
         state.setNumberLamina(lamina.title)
+        state.setLaminaId(lamina.laminaid)
         state.setCuantityLamina(lamina.cuantity)
         state.setImgLamina(lamina.img)
         state.setFilterLamina(lamina.filter)
-        console.log(lamina)
+        state.setOpen(true)
     }
 
     const handleChange = (event, value) => {
@@ -47,7 +63,7 @@ export const AlbumPage = () => {
             >
                 {laminas?.map((lamina) => (
                     <Box>
-                        {(lamina.page == state.currentPage) ? 
+                        {(lamina.page === state.currentPage) ? 
                             <Grid item key={lamina.title} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
                                 
                                     <ImageListItem onClick={()=>handleClick(lamina)}>

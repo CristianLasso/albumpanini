@@ -87,9 +87,9 @@ export const NotifyPage = () => {
             if (result.isConfirmed) {
                 const newNotify = {
                     notifyid: noti.notifyid,
-                    title: 'Solicitud cancelada',
+                    title: 'Cancelada',
                     info: noti.info,
-                    solicitud: false,
+                    type: 'Cancelada',
                     cuantity: noti.cuantity,
                     lamina: noti.lamina,
                     tokens: 0,
@@ -134,7 +134,8 @@ export const NotifyPage = () => {
                                 </ListItemButton>
                                 
                             </ListItem>
-                            {noti.solicitud ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar solicitud</Button> : <div/>}
+                            {noti.type === "Solicitud" ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar solicitud</Button> : <div/>}
+                            {noti.type === "Oferta" ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar Oferta</Button> : <div/>}
                         </Box>
                         
                     ))}

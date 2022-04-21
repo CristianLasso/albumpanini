@@ -61,6 +61,7 @@ export const HomePage = () => {
     const handleSelectAlbum = (item) => {
         state.setAlbumName(item.albumName)
         state.setCurrentAlbum(item)
+        state.setCurrentPage(1)
         console.log(item)
         setTimeout(async () =>{
             navigate("/album")
