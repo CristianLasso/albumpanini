@@ -115,7 +115,7 @@ export const ModalLamina = () => {
               title: 'Solicitud',
               info: 'Solicitaste ' + result.value + ' unidades de la lámina ' + state.numberLamina,
               type: 'Solicitud',
-              quantity: parseInt(result.value),
+              cuantity: parseInt(result.value),
               lamina: parseInt(state.numberLamina),
               tokens: parseInt(state.priceLamina) * parseInt(result.value),
             };
@@ -147,7 +147,7 @@ export const ModalLamina = () => {
     const handleOfertar = async () => {
       handleClose()
       Swal.fire({
-        title: 'Esta lámina tiene un costo de 500 tokens',
+        title: 'Esta lámina tiene un costo de ' + state.priceLamina + ' tokens',
         text: "Especifica cuantas unidades de esta lámina quieres ofertar",
         icon: 'warning',
         input: 'text',
@@ -173,7 +173,7 @@ export const ModalLamina = () => {
               title: 'Oferta',
               info: 'Ofertaste ' + result.value + ' unidades de la lámina ' + state.numberLamina,
               type: 'Oferta',
-              quantity: parseInt(result.value),
+              cuantity: parseInt(result.value),
               lamina: parseInt(state.numberLamina),
               tokens: parseInt(state.priceLamina) * parseInt(result.value),
             };

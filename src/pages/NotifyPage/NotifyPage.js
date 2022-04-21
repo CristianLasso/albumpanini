@@ -70,7 +70,7 @@ export const NotifyPage = () => {
         console.log(noti)
     }
 
-    const handleCancelar = (noti) => {
+    const handleCancelarSoli = (noti) => {
         console.log(noti)
         Swal.fire({
           title: 'Cancelar solicitud',
@@ -117,7 +117,68 @@ export const NotifyPage = () => {
                     })
             }
         })
-      }
+    }
+
+    const handleCancelarOfer = (noti) => {
+        console.log(noti)
+        Swal.fire({
+          title: 'Cancelar Oferta',
+          text: "Estas seguro de que quieres cancelar la oferta? Tus láminas seran devueltas.",
+          icon: 'warning',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, estoy seguro'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const newNotify = {
+                    notifyid: noti.notifyid,
+                    title: 'Cancelada',
+                    info: noti.info,
+                    type: 'Cancelada',
+                    cuantity: noti.cuantity,
+                    lamina: noti.lamina,
+                    tokens: 0,
+                };
+                    axios.put('http://localhost:8080/api/users/notifys/'+ noti.notifyid, newNotify)
+                    .then(() => {
+                        myFunction()
+                        var sum=parseInt(state.cuantityLamina) + parseInt(noti.cuantity)
+                        state.setCuantityLamina(sum)
+                        const newLamina = {
+                            laminaid: state.laminaId,
+                            img: state.imgLamina,
+                            cuantity: sum,
+                            filter: state.filterLamina,
+                            title: state.numberLamina,
+                            page: state.currentPage,
+                        };
+                        console.log(sum)
+                        axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+                        .then((newLamina) => {console.log(newLamina)})
+                        .catch((error) => {console.log(error)})
+                        Swal.fire(
+                            '¡¡Oferta cancelada!!',
+                            '¡Tu oferta ha sido cancelada con exito y las lámians devueltas a tu cuenta!',
+                            'success'
+                        )
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        return (Swal.fire({
+                            icon: 'error',
+                            title: 'Ups...',
+                            text: 'Parece que algo salio mal!',
+                            confirmButtonColor: 'primary',
+                            confirmButtonText: "Entendido!"
+                        }))
+                    })
+            }
+        })
+    }
     
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: "center",}}>
@@ -134,8 +195,8 @@ export const NotifyPage = () => {
                                 </ListItemButton>
                                 
                             </ListItem>
-                            {noti.type === "Solicitud" ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar solicitud</Button> : <div/>}
-                            {noti.type === "Oferta" ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelar(noti)}><CancelIcon fontSize={'small'}/>Cancelar Oferta</Button> : <div/>}
+                            {noti.type === "Solicitud" ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelarSoli(noti)}><CancelIcon fontSize={'small'}/>Cancelar solicitud</Button> : <div/>}
+                            {noti.type === "Oferta" ? <Button color="error" variant="contained" size={'large'} width={'auto'} height={'auto'} onClick={()=>handleCancelarOfer(noti)}><CancelIcon fontSize={'small'}/>Cancelar Oferta</Button> : <div/>}
                         </Box>
                         
                     ))}
