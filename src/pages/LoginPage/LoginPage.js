@@ -25,12 +25,12 @@ export const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/home')
+    //navigate('/home')
     const newUser = {
       username: userName,
       password: password,
     };
-    /*axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/login', newUser,
+    axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/login', newUser,
     {headers: {
       "Access-Control-Allow-Origin": "*"
     }})
@@ -47,7 +47,7 @@ export const LoginPage = () => {
         confirmButtonColor: 'primary',
         confirmButtonText: "Entendido!"
       }))
-    })*/
+    })
   }
 
   const style = {
