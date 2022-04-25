@@ -74,7 +74,7 @@ export const SignupPage = () => {
         userLastname: lastName,
         userName: name
       };
-      axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/', newUser)
+      axios.post('localhost:9091/saamfiapi/public/institutions/1/systems/11/users/', newUser)
       .then((newUser) => {
         console.log(newUser)
         navigate('/home')
