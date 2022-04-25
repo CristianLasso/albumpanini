@@ -30,7 +30,7 @@ export const LoginPage = () => {
       username: userName,
       password: password,
     };
-    axios.post('https://pi2sis.icesi.edu.co/saamfiapi/public/institutions/1/systems/11/users/login', newUser,
+    axios.post('localhost:9091/saamfiapi/public/institutions/1/systems/11/users/login', newUser,
     {headers: {
       "Access-Control-Allow-Origin": "*"
     }})
