@@ -64,7 +64,7 @@ export const HomePage = () => {
         state.setCurrentPage(1)
         console.log(item)
         setTimeout(async () =>{
-            navigate("/album")
+            navigate("/home/album")
         },2000);
     }
 

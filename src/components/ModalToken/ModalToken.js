@@ -36,8 +36,8 @@ export const ModalToken = () => {
 
     const handleComprar = async (e) => {
         e.preventDefault();
-        var sum = parseInt(state.token) + parseInt(plusToken)
-        state.setToken(sum)
+        var sum = parseInt(state.userInfo.tokens) + parseInt(plusToken)
+        state.setUser(sum)
         handleClose()
       }
 

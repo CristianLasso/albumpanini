@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./SignupPage.css"
 import AppContext from "../../context/AppContext"
+import { useAuth } from '../../context/AuthContext';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -9,8 +10,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Swal from 'sweetalert2';
-
-import axios from 'axios';
 
 const locations = [
   {
@@ -39,11 +38,12 @@ export const SignupPage = () => {
   const state = useContext(AppContext);
   const navigate = useNavigate();
 
+  const { signup } = useAuth();
+  const [error, setError] = useState('');
+
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [userName, setUserName] = useState('');
   const [documentId, setDocumentId] = useState('');
-  const [isActive, setIsActive] = useState('');
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
   const [email, setEmail] = useState('');
@@ -52,9 +52,7 @@ export const SignupPage = () => {
 
   const handleName = e => setName(e.target.value);
   const handleLastName = e => setLastName(e.target.value);
-  const handleUserName = e => setUserName(e.target.value);
   const handleDocumentId = e => setDocumentId(e.target.value);
-  const handleIsActive = e => setIsActive(e.target.value);
   const handlePhone = e => setPhone(e.target.value);
   const handleLocation = e => setLocation(e.target.value);
   const handleEmail = e => setEmail(e.target.value);
@@ -63,32 +61,27 @@ export const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      const newUser = {
-        userPassword: password,
-        userUsername: userName,
-        userPasswordConfirmation: passwordConfirmation,
-        userPhone: phone,
-        userEmail: email,
-        userDocumentId: documentId,
-        userIsActive: 'Y',
-        userLastname: lastName,
-        userName: name
-      };
-      axios.post('localhost:9091/saamfiapi/public/institutions/1/systems/11/users/', newUser)
-      .then((newUser) => {
-        console.log(newUser)
-        navigate('/home')
-      })
-      .catch((error) => {
-        console.log(error)
+    if (password !== passwordConfirmation) {
+      setError('Las contraseñas no coinciden');
+      setTimeout(() => setError(''), 1500);
+    } else {
+      try {
+        await signup(email, password);
+        state.saveUser(name, lastName, documentId, phone, location, email, password);
+        navigate('/home/albums');
+      } catch (error) {
+        setError('Error de credenciales');
+        console.log(error);
+        setTimeout(() => setError(''), 1500);
         return (Swal.fire({
           icon: 'error',
           title: 'Ups...',
           text: 'Verifica que la información sea correcta!',
-          confirmButtonColor: 'primary',
+          confirmButtonColor: '#388e3c',
           confirmButtonText: "Entendido!"
         }))
-      })
+      }
+    }
   }
 
   const style = {
@@ -125,9 +118,6 @@ export const SignupPage = () => {
               </Box>
               <Box sx={{marginTop:3}}>
                 <TextField fullWidth label="Apellido" variant="standard" onChange={handleLastName} />
-              </Box>
-              <Box sx={{marginTop:3}}>
-                <TextField fullWidth label='Username' variant="standard" helperText="Tu username será el nombre con el que ingresarás a la aplicación" onChange={handleUserName} />
               </Box>
               <Box sx={{marginTop:3}}>
                 <TextField fullWidth label="Documento de identidad" variant="standard" onChange={handleDocumentId} />

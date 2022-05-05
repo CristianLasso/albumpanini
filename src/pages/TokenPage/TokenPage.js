@@ -39,7 +39,7 @@ export const TokenPage = () => {
                     Tu balance:
                 </Typography>
                 <Typography sx={{textAlign:'center'}} id="balance" variant="h4" component="h3">
-                    <PaidIcon fontSize={'medium'}/>{state.token}
+                    <PaidIcon fontSize={'medium'}/>{state.userInfo.tokens}
                 </Typography>
                 <Button color="primary" sx={{marginTop:5, marginLeft:12}} variant="contained" onClick={handleComprar}><ShoppingBagIcon fontSize={'large'}/> Comprar tokens</Button>
             </Box>

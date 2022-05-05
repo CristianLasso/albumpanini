@@ -14,8 +14,10 @@ const columns = [
   { field: 'lamina', headerName: 'Lámina', width: 180 },
   { field: 'section', headerName: 'Sección', width: 150},
   { field: 'category', headerName: 'Categoría', width: 150 },
-  { field: 'rank', headerName: 'Rango', width: 110 },
-  { field: 'price', headerName: 'Precio x Categoría', width: 190 },
+  { field: 'range', headerName: 'Rango', width: 110 },
+  { field: 'categoryprice', headerName: 'Precio x Categoría', width: 190 },
+  { field: 'rangeprice', headerName: 'Precio x Rango', width: 190 },
+  { field: 'price', headerName: 'Precio Mayor', width: 190 },
 ];
 
 export const PricePage = () => {

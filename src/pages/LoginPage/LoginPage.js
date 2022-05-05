@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./LoginPage.css"
 import AppContext from "../../context/AppContext"
+import { useAuth } from '../../context/AuthContext';
+import { auth } from '../../config/firebase/firebase';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -9,45 +11,37 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
 
-import axios from 'axios';
-
-
-
 export const LoginPage = () => {
   const state = useContext(AppContext);
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useState('');
+  const { login } = useAuth();
+  const [error, setError] = useState('');
+
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUserName = e => setUserName(e.target.value);
+  const handleEmail = e => setEmail(e.target.value);
   const handlePassword = e => setPassword(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //navigate('/home')
-    const newUser = {
-      username: userName,
-      password: password,
-    };
-    axios.post('localhost:9091/saamfiapi/public/institutions/1/systems/11/users/login', newUser,
-    {headers: {
-      "Access-Control-Allow-Origin": "*"
-    }})
-    .then((newUser) => {
-      console.log(newUser)
-      navigate('/home')
-    })
-    .catch((error) => {
-      console.log(error)
+    try {
+      await login(email, password);
+      state.getUser(auth.currentUser.uid)
+      navigate('/home/albums');
+    } catch (error) {
+      console.log(error);
+      setError('Datos incorrectos');
+      setTimeout(() => setError(''), 1500);
       return (Swal.fire({
         icon: 'error',
         title: 'Ups...',
-        text: 'Verifica que la información sea correcta!',
-        confirmButtonColor: 'primary',
+        text: 'Verifica que tu información sea correcta!',
+        confirmButtonColor: '#388e3c',
         confirmButtonText: "Entendido!"
       }))
-    })
+    }
   }
 
   const style = {
@@ -76,7 +70,7 @@ export const LoginPage = () => {
           <Box sx={{display:"flex", flexDirection: 'column', alignItems: 'center'}}>
             <form onSubmit={handleSubmit}>
               <Box sx={{marginTop:2}}>
-                <TextField fullWidth color="primary" type='username' label='Nombre de usuario' variant="standard" onChange={handleUserName} />
+                <TextField fullWidth color="primary" type='email' label='Email' variant="standard" onChange={handleEmail} />
               </Box>
               <Box sx={{marginTop:3}}>
                 <TextField fullWidth color="primary" type='password' label='Contraseña' variant="standard" onChange={handlePassword} />

@@ -97,8 +97,8 @@ export const NotifyPage = () => {
                     axios.put('http://localhost:8080/api/users/notifys/'+ noti.notifyid, newNotify)
                     .then(() => {
                         myFunction()
-                        var sum = parseInt(state.token + noti.tokens)
-                        state.setToken(sum)
+                        var sum = parseInt(state.userInfo.tokens + noti.tokens)
+                        state.setUser(sum)
                         Swal.fire(
                             '¡¡Solicitud cancelada!!',
                             '¡Tu solicitud ha sido cancelada con exito y los tokens cargados a tu cuenta para que puedas seguir comprando otras láminas!',

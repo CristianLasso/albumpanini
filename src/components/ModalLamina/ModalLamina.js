@@ -102,7 +102,7 @@ export const ModalLamina = () => {
         confirmButtonText: 'Confirmar solicitud'
       }).then((result) => {
         if (result.isConfirmed){
-          var rest=parseInt(state.token)-parseInt(state.priceLamina) * parseInt(result.value)
+          var rest=parseInt(state.userInfo.tokens)-parseInt(state.priceLamina) * parseInt(result.value)
           if(rest<0){
             Swal.fire({
               icon: 'error',
@@ -127,7 +127,7 @@ export const ModalLamina = () => {
                 'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
                 'success'
               )
-              state.setToken(rest)
+              state.setUser(rest)
             })
             .catch((error) =>{
               console.log(error)

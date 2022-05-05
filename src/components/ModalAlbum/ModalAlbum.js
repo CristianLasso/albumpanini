@@ -53,7 +53,7 @@ export const ModalAlbum = () => {
         .then((newAlbum) => {
           console.log(newAlbum)
           state.setCurrentAlbum(newAlbum)
-          navigate('/album')
+          navigate('/home/album')
         })
         .catch((error) => {
           console.log(error)
