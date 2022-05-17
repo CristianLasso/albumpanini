@@ -85,16 +85,19 @@ export const SignupPage = () => {
   }
 
   const style = {
-    position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, -50%)',
+    minWidth: '400px',
     width: 'auto',
     height: 'auto',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 10,
     p: 4,
+    marginTop: '20px',
+    marginBottom: '20px',
+    marginLeft: '200px',
+    marginRight: '200px'
   };
 
   const inputStyle = {

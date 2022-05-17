@@ -20,8 +20,18 @@ export const AppContextWrapper = (props) => {
     const [filterLamina, setFilterLamina] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [userNotis, setUserNotis] = useState(0)
+    const [charge, setCharge] = useState(false);
 
     const [userInfo, setUserInfo] = useState("");
+
+    const [acceptanceToken, setAcceptanceToken] = useState("");
+
+  const charging = () => {
+    setCharge(true);
+    setTimeout(async () =>{
+      setCharge(false);
+    },2000);
+  }
 
   ////////////////////////////////////////////////////////////////////
 
@@ -118,6 +128,9 @@ export const AppContextWrapper = (props) => {
         setCurrentPage,
         userNotis,
         setUserNotis,
+        charge,
+        setCharge,
+        charging,
         userInfo,
         setUserInfo,
         getUser,
@@ -125,6 +138,8 @@ export const AppContextWrapper = (props) => {
         saveUser,
         deleteUser,
         findUser,
+        acceptanceToken,
+        setAcceptanceToken,
     };
 
     return (

@@ -6,6 +6,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
+import CircularProgress from '@mui/material/CircularProgress';
 import {ModalLamina} from '../../components/ModalLamina/ModalLamina';
 import AppBar from '../../components/AppBar/AppBar';
 import {laminasData} from '../../assets/Laminas World Cup 2018/laminas';
@@ -16,6 +17,7 @@ export const AlbumPage = () => {
     const state = useContext(AppContext);
     const [prices, setPrices] = useState([]);
     const laminas = state.currentAlbum.laminas;
+    const charge = state.charge;
 
     useEffect(() => {
         myFunction();
@@ -44,53 +46,58 @@ export const AlbumPage = () => {
 
     const handleChange = (event, value) => {
         state.setCurrentPage(value);
+        state.charging();
         console.log(value)
       };
 
     return(
         <Box>
-            <Grid
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: "center",
-                    flexWrap: 'wrap',
-                    m: 1,
-                    height: '100%',
-                    width: '100%',
-                    paddingTop: '60px'
-                  }}
-            >
-                {laminas?.map((lamina) => (
-                    <Box>
-                        {(lamina.page === state.currentPage) ? 
-                            <Grid item key={lamina.title} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
-                                
-                                    <ImageListItem onClick={()=>handleClick(lamina)}>
-                                        <img
-                                            className={`banner ${lamina.filter ? "sin-filtro" : "filtro-bn"}`}
-                                            src={`${lamina.img}?w=248&fit=crop&auto=format`}
-                                            srcSet={`${lamina.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                            alt={lamina.title}
-                                            loading="lazy"
-                                        />
-                                        <ImageListItemBar
-                                            position={'top'}
-                                            title={lamina.title}
-                                        />
-                                    </ImageListItem>
-                                
-                                
-                            </Grid> 
-                        : null}
-                    </Box>
-                ))}
-                
-            </Grid>
-            <Pagination sx={{paddingTop: '10px', position: 'absolute', left: '50%', transform: 'translate(-50%)'}} count={36} color="primary" showFirstButton showLastButton onChange={handleChange}/>
-            <div maxHeight={'200px'}>
-                <ModalLamina/>
-            </div>
+            {charge ? <CircularProgress sx={{position: 'fixed', top: '50%', left: '50%'}}/> :
+            <Box>
+                <Grid
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: "center",
+                        flexWrap: 'wrap',
+                        m: 1,
+                        height: '100%',
+                        width: '100%',
+                        paddingTop: '60px'
+                    }}
+                >
+                    {laminas?.map((lamina) => (
+                        <Box>
+                            {(lamina.page === state.currentPage) ? 
+                                <Grid item key={lamina.title} padding={'3px'} border={'2px solid #000'} margin={'auto'} width={'180px'}>
+                                    
+                                        <ImageListItem onClick={()=>handleClick(lamina)}>
+                                            <img
+                                                className={`banner ${lamina.filter ? "sin-filtro" : "filtro-bn"}`}
+                                                src={`${lamina.img}?w=248&fit=crop&auto=format`}
+                                                srcSet={`${lamina.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                                alt={lamina.title}
+                                                loading="lazy"
+                                            />
+                                            <ImageListItemBar
+                                                position={'top'}
+                                                title={lamina.title}
+                                            />
+                                        </ImageListItem>
+                                    
+                                    
+                                </Grid> 
+                            : null}
+                        </Box>
+                    ))}
+                    
+                </Grid>
+            </Box>
+        }
+        <Pagination sx={{paddingTop: '10px', position: 'absolute', left: '50%', transform: 'translate(-50%)'}} count={36} color="primary" showFirstButton showLastButton onChange={handleChange}/>
+                <div maxHeight={'200px'}>
+                    <ModalLamina/>
+                </div>
         </Box>
     );
 };
