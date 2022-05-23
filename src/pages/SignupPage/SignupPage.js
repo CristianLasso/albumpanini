@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import "./SignupPage.css"
 import AppContext from "../../context/AppContext"
 import { useAuth } from '../../context/AuthContext';
+import { auth } from '../../config/firebase/firebase';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -10,6 +11,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Swal from 'sweetalert2';
+
+import axios from 'axios';
 
 const locations = [
   {
@@ -69,6 +72,7 @@ export const SignupPage = () => {
         await signup(email, password);
         state.saveUser(name, lastName, documentId, phone, location, email, password);
         navigate('/home/albums');
+        saveUser();
       } catch (error) {
         setError('Error de credenciales');
         console.log(error);
@@ -82,6 +86,19 @@ export const SignupPage = () => {
         }))
       }
     }
+  }
+
+  const saveUser = async () => {
+    console.log('Post de user')
+    const newUser = {
+      userid: auth.currentUser.uid,
+      username: name + " " + lastName,
+      email: email
+    };
+    axios.post('http://localhost:8080/api/users/', newUser)
+    .then((newUser) => {
+      console.log(newUser)
+    })
   }
 
   const style = {

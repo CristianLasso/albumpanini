@@ -19,8 +19,7 @@ import "./AppBar.css"
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
-
-import {auth} from "../../config/firebase/firebase";
+import { auth } from '../../config/firebase/firebase';
 
 import axios from 'axios';
 
@@ -34,7 +33,6 @@ export default function ButtonAppBar() {
     const handleMenu = (event) => {
       setAnchorEl(event.currentTarget);
       state.getUser(auth.currentUser.uid);
-      console.log(state.userInfo);
     };
 
     const handleClose = () => {
@@ -51,8 +49,7 @@ export default function ButtonAppBar() {
     }, [state.userNotis]);
 
     const myFunction = () => {
-        axios.get('http://localhost:8080/api/users/notifys/').then(res => {setNotis(res.data.length)
-        console.log(res.data.length)});
+        axios.get('http://localhost:8080/api/users/' + auth.currentUser.uid + '/notifys/').then(res => {setNotis(res.data.length)});
     }
 
     const handleLogout = async () => {

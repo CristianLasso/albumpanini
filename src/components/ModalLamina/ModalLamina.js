@@ -1,6 +1,7 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import AppContext from "../../context/AppContext";
 import Swal from 'sweetalert2'
+import { auth } from '../../config/firebase/firebase';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -42,7 +43,7 @@ export const ModalLamina = () => {
           title: state.numberLamina,
           page: state.currentPage,
         };
-        axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+        axios.put('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/lamina/'+ state.laminaId, newLamina)
         .then((newLamina) => {console.log(newLamina)})
         .catch((error) => {console.log(error)})
       }
@@ -59,7 +60,7 @@ export const ModalLamina = () => {
         title: state.numberLamina,
         page: state.currentPage,
       };
-      axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+      axios.put('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/lamina/'+ state.laminaId, newLamina)
       .then((newLamina) => {console.log(newLamina)})
       .catch((error) => {console.log(error)})
     }
@@ -79,7 +80,7 @@ export const ModalLamina = () => {
           page: state.currentPage,
         };
         console.log(newLamina)
-        axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+        axios.put('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/lamina/'+ state.laminaId, newLamina)
         .then((newLamina) => {console.log(newLamina)})
         .catch((error) => {console.log(error)})
       }
@@ -90,19 +91,15 @@ export const ModalLamina = () => {
       handleClose()
       Swal.fire({
         title: 'Esta lámina tiene un costo de ' + state.priceLamina + ' tokens',
-        text: "Especifica cuantas unidades de esta lámina quieres solicitar",
+        text: "Seguro que la quieres solicitar?",
         icon: 'warning',
-        input: 'text',
-        inputAttributes: {
-          autocapitalize: 'off'
-        },
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Confirmar solicitud'
       }).then((result) => {
         if (result.isConfirmed){
-          var rest=parseInt(state.userInfo.tokens)-parseInt(state.priceLamina) * parseInt(result.value)
+          var rest=parseInt(state.userInfo.tokens)-parseInt(state.priceLamina)
           if(rest<0){
             Swal.fire({
               icon: 'error',
@@ -113,20 +110,21 @@ export const ModalLamina = () => {
           if(rest>=0){
             const newNotify = {
               title: 'Solicitud',
-              info: 'Solicitaste ' + result.value + ' unidades de la lámina ' + state.numberLamina,
+              info: 'Solicitaste la lámina ' + state.numberLamina,
               type: 'Solicitud',
-              cuantity: parseInt(result.value),
-              lamina: parseInt(state.numberLamina),
-              tokens: parseInt(state.priceLamina) * parseInt(result.value),
+              cuantity: 1,
+              lamina: state.numberLamina,
+              tokens: parseInt(state.priceLamina),
             };
-            axios.post('http://localhost:8080/api/users/notifys/', newNotify)
+            axios.post('http://localhost:8080/api/users/' + auth.currentUser.uid + '/notifys/', newNotify)
             .then((newNotify) =>{
-              console.log(newNotify)
+              console.log(newNotify.data.notifyid)
               Swal.fire(
                 '¡¡Solicitud realizada!!',
                 'Espera mientras comprobamos nuestras existencias para reflejar tu compra, si no podemos conseguirla devolveremos tus tokens',
                 'success'
               )
+              searchSoli(newNotify.data.notifyid);
               state.setUser(rest)
             })
             .catch((error) =>{
@@ -142,6 +140,44 @@ export const ModalLamina = () => {
           }
         }
       })
+    }
+
+    const searchSoli = async (soliId) => {
+      console.log('searchSoli')
+      axios.get('http://localhost:8080/api/users/')
+      .then(res => {
+        console.log(res.data);
+        setTimeout(async () =>{
+          console.log('Timeout');
+          res.data?.map((user) =>{
+            const albums = user.albums;
+            albums?.map((album) => {
+              console.log('albumes')
+              const laminas = album.laminas;
+              laminas?.map((lamina) => {
+                console.log('laminas')
+                if(lamina.title == state.numberLamina){
+                  if(lamina.cuantity > 0){
+                    const newNotify = {
+                      title: 'Oferta',
+                      info: 'Hay una persona buscando la lámina ' + state.numberLamina + ' quieres venderla por ' + state.priceLamina + ' tokens?',
+                      type: 'Oferta',
+                      cuantity: 1,
+                      lamina: state.numberLamina,
+                      tokens: parseInt(state.priceLamina),
+                      notificationid: parseInt(soliId),
+                    };
+                    axios.post('http://localhost:8080/api/users/' + album.userref + '/notifys/', newNotify)
+                    .then((newNotify) =>{
+                      console.log(newNotify)
+                    })
+                  }
+                }
+              })
+            })
+          })
+        },2000);
+      });
     }
 
     const handleOfertar = async () => {
@@ -177,7 +213,7 @@ export const ModalLamina = () => {
               lamina: parseInt(state.numberLamina),
               tokens: parseInt(state.priceLamina) * parseInt(result.value),
             };
-            axios.post('http://localhost:8080/api/users/notifys/', newNotify)
+            axios.post('http://localhost:8080/api/users/' + auth.currentUser.uid + '/notifys/', newNotify)
             .then((newNotify) =>{
               console.log(newNotify)
               Swal.fire(
@@ -194,7 +230,7 @@ export const ModalLamina = () => {
                 title: state.numberLamina,
                 page: state.currentPage,
               };
-              axios.put('http://localhost:8080/api/users/albums/lamina/'+ state.laminaId, newLamina)
+              axios.put('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/lamina/'+ state.laminaId, newLamina)
               .then((newLamina) => {console.log(newLamina)})
               .catch((error) => {console.log(error)})
             })

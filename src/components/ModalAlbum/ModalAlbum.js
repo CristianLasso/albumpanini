@@ -7,7 +7,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { auth } from '../../config/firebase/firebase';
+import { laminas } from '../../assets/Laminas';
 
 import axios from 'axios';
 
@@ -42,18 +44,24 @@ export const ModalAlbum = () => {
 
     const handleCrear = async (e) => {
         e.preventDefault();
-        console.log(nameChange)
-        state.setAlbumName(nameChange)
-        handleClose()
         const newAlbum = {
           albumName:String(nameChange),
-          laminasNumber:0
+          laminasNumber: 0,
+          laminas: laminas,
+          userref: auth.currentUser.uid
         };
-        axios.post('http://localhost:8080/api/users/albums/', newAlbum)
+        console.log(nameChange)
+        state.setAlbumName(nameChange)
+        state.setCurrentAlbum(newAlbum)
+        state.setCurrentPage(1)
+        handleClose()
+        axios.post('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/', newAlbum)
         .then((newAlbum) => {
           console.log(newAlbum)
-          state.setCurrentAlbum(newAlbum)
-          navigate('/home/album')
+          setTimeout(async () =>{
+            navigate("/home/album")
+            state.charging()
+          },6000);
         })
         .catch((error) => {
           console.log(error)

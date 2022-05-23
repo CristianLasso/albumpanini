@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
+import { auth } from '../../config/firebase/firebase';
 
 import axios from 'axios';
 
@@ -47,7 +48,7 @@ export const HomePage = () => {
     }, []);
 
     const myFunction = () => {
-        axios.get('http://localhost:8080/api/users/albums/').then(res => {setAlbums(res.data)});
+        axios.get('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/').then(res => {setAlbums(res.data)});
     }
 
     const countLam = (album) => {
@@ -55,7 +56,6 @@ export const HomePage = () => {
         for(var i=0; i<album.laminas.length; i++){
             lam = lam + album.laminas[i].cuantity;
         }
-        console.log(lam)
     }
 
     const handleSelectAlbum = (item) => {
@@ -63,7 +63,6 @@ export const HomePage = () => {
         state.setCurrentAlbum(item)
         state.setCurrentPage(1)
         state.charging()
-        console.log(item)
         setTimeout(async () =>{
             navigate("/home/album")
         },2000);
