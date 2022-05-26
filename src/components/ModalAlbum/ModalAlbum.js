@@ -50,7 +50,6 @@ export const ModalAlbum = () => {
           laminas: laminas,
           userref: auth.currentUser.uid
         };
-        console.log(nameChange)
         state.setAlbumName(nameChange)
         state.setCurrentAlbum(newAlbum)
         state.setCurrentPage(1)
@@ -75,6 +74,35 @@ export const ModalAlbum = () => {
         })
     }
 
+    const handleEditar = async (e) => {
+      e.preventDefault();
+      console.log(state.currentAlbum)
+      const newAlbum = {
+        albumid: state.setCurrentAlbum.albumid,
+        albumName: String(nameChange),
+        laminasNumber: 0,
+        laminas: state.setCurrentAlbum.laminas,
+        userref: auth.currentUser.uid
+      };
+      state.setCurrentAlbum(newAlbum)
+      state.setCurrentPage(1)
+      handleClose()
+      axios.put('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/' + state.currentAlbum.albumid, newAlbum)
+        .then((newAlbum) => {
+          console.log(newAlbum)
+        })
+        .catch((error) => {
+          console.log(error)
+          return (Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Parece que algo salio mal!',
+            confirmButtonColor: 'primary',
+            confirmButtonText: "Entendido!"
+          }))
+        })
+    }
+
     return(
         <Modal
           open={state.open}
@@ -84,14 +112,23 @@ export const ModalAlbum = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Escribe el nombre de tu nuevo Album:
+              Escribe el nombre del Album:
             </Typography>
-            <form onSubmit={handleCrear}>
+            {state.edit ?
+              <form onSubmit={handleEditar}>
+                <Box>
+                    <Input sx={inputStyle} color="primary" type='name' placeholder='Nuevo Album' onChange={handleName} />
+                </Box>
+                <Button sx={{marginTop:5, marginLeft:12}} color="primary" variant="contained" type='submit' value='Crear'>Editar</Button>
+              </form>
+            : 
+              <form onSubmit={handleCrear}>
                 <Box>
                     <Input sx={inputStyle} color="primary" type='name' placeholder='Nuevo Album' onChange={handleName} />
                 </Box>
                 <Button sx={{marginTop:5, marginLeft:12}} color="primary" variant="contained" type='submit' value='Crear'>Crear</Button>
-            </form>
+              </form>
+            }
           </Box>
         </Modal>
     );

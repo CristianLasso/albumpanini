@@ -11,6 +11,7 @@ export const AppContextWrapper = (props) => {
     const [currentAlbum, setCurrentAlbum] = useState(null);
     const [albumName, setAlbumName] = useState("Tus albumes");
     const [open, setOpen] = useState(false);
+    const [edit, setEdit] = useState(false);
     const [token, setToken] = useState(0);
     const [laminaId, setLaminaId] = useState(0);
     const [imgLamina, setImgLamina] = useState("");
@@ -109,6 +110,8 @@ export const AppContextWrapper = (props) => {
         setAlbumName,
         open,
         setOpen,
+        edit,
+        setEdit,
         token,
         setToken,
         laminaId,

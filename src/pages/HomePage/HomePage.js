@@ -8,6 +8,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Box from '@mui/material/Box';
 import AppBar from '../../components/AppBar/AppBar';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +18,7 @@ import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
 import { auth } from '../../config/firebase/firebase';
 
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 
@@ -71,6 +74,29 @@ export const HomePage = () => {
     const handleAgregar = () => {
         state.setOpen(true)
     }
+
+    const handleEditar = (item) => {
+        state.setCurrentAlbum(item)
+        state.setEdit(true)
+        state.setOpen(true)
+    }
+
+    const handleEliminar = (item) => {
+        axios.delete('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/' + item.albumid)
+        .then((album) => {
+          console.log(album)
+        })
+        .catch((error) => {
+          console.log(error)
+          return (Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Parece que algo salio mal!',
+            confirmButtonColor: 'primary',
+            confirmButtonText: "Entendido!"
+          }))
+        })
+    }
     
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: "center",}}>
@@ -89,6 +115,8 @@ export const HomePage = () => {
                                     {countLam(album)}
                                     <ListItemText primary={album.albumName} secondary={'Tienes ' + lam + ' láminas en este álbum'} />
                                 </ListItemButton>
+                                <Button color="primary" variant="contained" onClick={()=>handleEditar(album)} ><EditIcon fontSize={'small'}/></Button>
+                                <Button sx={{marginLeft:2}} color="primary" variant="contained" onClick={()=>handleEliminar(album)} ><DeleteForeverIcon fontSize={'small'}/></Button>
                             </ListItem>
                         </Box>
                         
