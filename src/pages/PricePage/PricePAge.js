@@ -6,6 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import Button from '@mui/material/Button';
 
+import { auth } from '../../config/firebase/firebase';
 import axios from 'axios';
 
 const columns = [
@@ -45,7 +46,7 @@ export const PricePage = () => {
             lamina: 0,
             tokens: 0,
         };
-        axios.post('http://localhost:8080/api/users/notifys/', newNotify)
+        axios.post('http://localhost:8080/api/users/' + auth.currentUser.uid + '/notifys/', newNotify)
         .then((newNotify) =>{
             console.log(newNotify)
             Swal.fire(
