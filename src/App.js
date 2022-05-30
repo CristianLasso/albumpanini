@@ -19,44 +19,20 @@ function App() {
   return (
     <AppContextWrapper>
       <Router>
-        <AuthProvider>
           <Routes>
             <Route exact path='/' element={<LoginPage/>} />
             <Route exact path='/register' element={<SignupPage/>} />
-            <Route exact path='/home' element={<PrivateRoute/>}>
-              <Route exact path='/home/albums' element={
+            <Route exact path='/home/albums' element={
                 <div>
                   <AppBar/>
                   <HomePage/>
-                </div>} 
-              />
-              <Route exact path='/home/album' element={
+                </div>} />
+            <Route exact path='/home/album' element={
                 <div>
                   <AppBar/>
                   <AlbumPage/>
-                </div>} 
-              />
-              <Route exact path='/home/wallet' element={
-                <div>
-                  <AppBar/>
-                  <TokenPage/>
-                </div>} 
-              />
-              <Route exact path='/home/notifys' element={
-                <div>
-                  <AppBar/>
-                  <NotifyPage/>
-                </div>} 
-              />
-              <Route exact path='/home/prices' element={
-                <div>
-                  <AppBar/>
-                  <PricePage/>
-                </div>} 
-              />
-            </Route>
+                </div>} />
           </Routes>
-        </AuthProvider>
       </Router>
     </AppContextWrapper>
   );
