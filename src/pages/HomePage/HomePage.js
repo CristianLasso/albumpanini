@@ -8,6 +8,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Box from '@mui/material/Box';
 import AppBar from '../../components/AppBar/AppBar';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +18,7 @@ import Button from '@mui/material/Button';
 import {ModalAlbum} from '../../components/ModalAlbum/ModalAlbum';
 import { auth } from '../../config/firebase/firebase';
 
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 
@@ -48,7 +51,7 @@ export const HomePage = () => {
     }, []);
 
     const myFunction = () => {
-        axios.get('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/').then(res => {setAlbums(res.data)});
+        axios.get('http://localhost:8080/api/users/m4DbIGm7U2OB4Bmqew4nRKoiP7p2/albums/').then(res => {setAlbums(res.data)});
     }
 
     const countLam = (album) => {
@@ -71,6 +74,29 @@ export const HomePage = () => {
     const handleAgregar = () => {
         state.setOpen(true)
     }
+
+    const handleEditar = (item) => {
+        state.setCurrentAlbum(item)
+        state.setEdit(true)
+        state.setOpen(true)
+    }
+
+    const handleEliminar = (item) => {
+        axios.delete('http://localhost:8080/api/users/m4DbIGm7U2OB4Bmqew4nRKoiP7p2/albums/' + item.albumid)
+        .then((album) => {
+          console.log(album)
+        })
+        .catch((error) => {
+          console.log(error)
+          return (Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Parece que algo salio mal!',
+            confirmButtonColor: 'primary',
+            confirmButtonText: "Entendido!"
+          }))
+        })
+    }
     
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: "center",}}>
@@ -78,7 +104,7 @@ export const HomePage = () => {
                 <Typography sx={{textAlign:'center'}} variant="h4" component="h3">
                     Tus albumes son:
                 </Typography>
-                <List sx={{ width: '100%', maxWidth: '60%', bgcolor: 'background.paper' }}>
+                <List id={'list'} sx={{ width: '100%', maxWidth: '60%', bgcolor: 'background.paper' }}>
                     {albums?.map((album) => (
                         <Box key={album.albumid} display={'flex'} flexDirection={'row'} border={'1px solid #000'} borderRadius={1} marginBottom={1}>
                             <ListItem>
@@ -87,8 +113,10 @@ export const HomePage = () => {
                                         <AutoStoriesIcon />
                                     </ListItemIcon>
                                     {countLam(album)}
-                                    <ListItemText primary={album.albumName} secondary={'Tienes ' + lam + ' láminas en este álbum'} />
+                                    <ListItemText primary={album.albumName} secondary={'Este album tiene ' + album.laminasNumber + ' láminas para coleccionar'} />
                                 </ListItemButton>
+                                <Button id={'edit-'+album.albumName} color="primary" variant="contained" onClick={()=>handleEditar(album)} ><EditIcon fontSize={'small'}/></Button>
+                                <Button id={album.albumName} sx={{marginLeft:2}} color="primary" variant="contained" onClick={()=>handleEliminar(album)} ><DeleteForeverIcon fontSize={'small'}/></Button>
                             </ListItem>
                         </Box>
                         

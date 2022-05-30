@@ -25,36 +25,23 @@ import axios from 'axios';
 
 export default function ButtonAppBar() {
     const state = useContext(AppContext);
-    const { logout } = useAuth();
+    //const { logout } = useAuth();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const [error, setError] = useState('');
 
     const handleMenu = (event) => {
       setAnchorEl(event.currentTarget);
-      state.getUser(auth.currentUser.uid);
+      state.getUser("m4DbIGm7U2OB4Bmqew4nRKoiP7p2");
     };
 
     const handleClose = () => {
       setAnchorEl(null);
     };
 
-    const [notis, setNotis] = useState(0);
-
-    useEffect(() => {
-        myFunction();
-        return () => {
-            setNotis({});
-        };
-    }, [state.userNotis]);
-
-    const myFunction = () => {
-        axios.get('http://localhost:8080/api/users/' + auth.currentUser.uid + '/notifys/').then(res => {setNotis(res.data.length)});
-    }
-
     const handleLogout = async () => {
       try {
-        await logout();
+        //await logout();
         handleClose();
         state.setAlbumName('Tus albumes')
         navigate('/');
@@ -93,7 +80,7 @@ export default function ButtonAppBar() {
             {state.albumName}
           </Typography>
           <IconButton className='button' color="inherit" onClick={handleNotifications}>
-            <Badge badgeContent={notis} color="error">
+            <Badge badgeContent={0} color="error">
               <NotificationsIcon fontSize="large" />
             </Badge>
           </IconButton>

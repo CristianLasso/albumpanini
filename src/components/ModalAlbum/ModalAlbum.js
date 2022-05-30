@@ -39,29 +39,55 @@ export const ModalAlbum = () => {
     const handleClose = () => state.setOpen(false);
     const navigate = useNavigate();
     const [nameChange, setNameChange] = useState('');
+    const [numberChange, setNumberChange] = useState(0);
 
     const handleName = e => setNameChange(e.target.value);
+    const handleNumber = e => setNumberChange(parseInt(e.target.value));
 
     const handleCrear = async (e) => {
         e.preventDefault();
         const newAlbum = {
           albumName:String(nameChange),
-          laminasNumber: 0,
+          laminasNumber: numberChange,
           laminas: laminas,
-          userref: auth.currentUser.uid
+          userref: "m4DbIGm7U2OB4Bmqew4nRKoiP7p2"
         };
-        console.log(nameChange)
-        state.setAlbumName(nameChange)
         state.setCurrentAlbum(newAlbum)
         state.setCurrentPage(1)
-        handleClose()
-        axios.post('http://localhost:8080/api/users/' + auth.currentUser.uid + '/albums/', newAlbum)
+        
+        axios.post('http://localhost:8080/api/users/m4DbIGm7U2OB4Bmqew4nRKoiP7p2/albums/', newAlbum)
         .then((newAlbum) => {
           console.log(newAlbum)
-          setTimeout(async () =>{
-            navigate("/home/album")
-            state.charging()
-          },6000);
+          handleClose()
+        })
+        .catch((error) => {
+          console.log(error)
+          return (Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Parece que algo salio mal!',
+            confirmButtonColor: 'primary',
+            confirmButtonText: "Entendido!"
+          }))
+        })
+    }
+
+    const handleEditar = async (e) => {
+      e.preventDefault();
+      console.log(state.currentAlbum)
+      const newAlbum = {
+        albumid: state.currentAlbum.albumid,
+        albumName: String(nameChange),
+        laminasNumber: numberChange,
+        laminas: state.currentAlbum.laminas,
+        userref: 'm4DbIGm7U2OB4Bmqew4nRKoiP7p2'
+      };
+      state.setCurrentAlbum(newAlbum)
+      state.setCurrentPage(1)
+      handleClose()
+      axios.put('http://localhost:8080/api/users/m4DbIGm7U2OB4Bmqew4nRKoiP7p2/albums/' + state.currentAlbum.albumid, newAlbum)
+        .then((newAlbum) => {
+          console.log(newAlbum)
         })
         .catch((error) => {
           console.log(error)
@@ -84,14 +110,29 @@ export const ModalAlbum = () => {
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Escribe el nombre de tu nuevo Album:
+              Especifica las caracteristicas Album:
             </Typography>
-            <form onSubmit={handleCrear}>
+            {state.edit ?
+              <form onSubmit={handleEditar}>
                 <Box>
-                    <Input sx={inputStyle} color="primary" type='name' placeholder='Nuevo Album' onChange={handleName} />
+                    <Input sx={inputStyle} color="primary" type='name' placeholder='Nombre del Album' onChange={handleName} />
+                </Box>
+                <Box sx={{marginTop:2}}>
+                  <Input sx={inputStyle} color="primary" type='integer' placeholder='Cantidad de laminas' onChange={handleNumber} />
+                </Box>
+                <Button sx={{marginTop:5, marginLeft:12}} color="primary" variant="contained" type='submit' value='Crear'>Editar</Button>
+              </form>
+            : 
+              <form onSubmit={handleCrear}>
+                <Box>
+                  <Input sx={inputStyle} color="primary" type='name' placeholder='Nombre del Album' onChange={handleName} />
+                </Box>
+                <Box sx={{marginTop:2}}>
+                  <Input sx={inputStyle} color="primary" type='integer' placeholder='Cantidad de laminas' onChange={handleNumber} />
                 </Box>
                 <Button sx={{marginTop:5, marginLeft:12}} color="primary" variant="contained" type='submit' value='Crear'>Crear</Button>
-            </form>
+              </form>
+            }
           </Box>
         </Modal>
     );
