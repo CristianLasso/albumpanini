@@ -42,8 +42,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test:component": "jest -c test/component/jest.config.component.js",
-    "test:contract": "jest -c test/contract/jest.contract.config.js",
+    "test:component": "jest -c src/test/component/jest.config.component.js",
+    "test:contract": "jest -c src/test/contract/jest.contract.config.js",
     "publish:contract": "node ./test/contract/config/publish.js"
   },
   "eslintConfig": {
